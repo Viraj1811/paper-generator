@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'ExamCraft',
+  title: "Shayak's Paper Generator",
   description: 'The intelligent question paper generator.',
 };
 

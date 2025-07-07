@@ -30,7 +30,7 @@ export function TeacherSidebarContent() {
       <SidebarHeader>
         <div className="flex items-center gap-2">
             <FileText className="h-6 w-6 text-primary"/>
-            <span className="font-semibold text-lg group-data-[collapsible=icon]:hidden">ExamCraft</span>
+            <span className="font-semibold text-lg group-data-[collapsible=icon]:hidden">Shayak's Paper Generator</span>
         </div>
       </SidebarHeader>
       <SidebarContent className="p-2">
