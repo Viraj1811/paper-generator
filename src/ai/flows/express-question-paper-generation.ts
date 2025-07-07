@@ -11,6 +11,7 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const ExpressQuestionPaperGenerationInputSchema = z.object({
+  language: z.string().describe('The language of the question paper, e.g., "Hindi".'),
   subject: z.string().describe('The subject of the question paper.'),
   topic: z.string().describe('The topic of the question paper.'),
   difficultyLevel: z
@@ -50,6 +51,7 @@ const prompt = ai.definePrompt({
   input: {schema: ExpressQuestionPaperGenerationInputSchema},
   output: {schema: ExpressQuestionPaperGenerationOutputSchema},
   prompt: `You are an expert teacher. Generate a question paper for the subject '{{{subject}}}' for students of '{{{gradeLevel}}}', focusing on the topic '{{{topic}}}'.
+The entire question paper must be in the '{{{language}}}' language.
 The difficulty level of the questions should be '{{{difficultyLevel}}}'.
 
 The paper must contain the following number of questions for each specified type:
@@ -74,7 +76,7 @@ Format the entire output in Markdown.
 - Use numbered lists for questions within each section.
 - For MCQs, use nested lists for options.
 Ensure the questions are accurate, well-formatted, and appropriate for the specified grade level.
-The entire response should be a single markdown string for the question paper.
+The entire response should be a single markdown string for the question paper, and it must be entirely in '{{{language}}}'.
 `,
 });
 

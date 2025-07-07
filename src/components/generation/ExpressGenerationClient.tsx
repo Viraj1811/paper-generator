@@ -25,6 +25,11 @@ const initialState = {
   success: false,
 };
 
+const languages = [
+    "English", "Hindi", "Bengali", "Marathi", "Telugu", "Tamil", 
+    "Gujarati", "Kannada", "Malayalam", "Punjabi", "Odia", "Assamese"
+];
+
 const gradeLevels = [
     "1st Grade", "2nd Grade", "3rd Grade", "4th Grade", "5th Grade", 
     "6th Grade", "7th Grade", "8th Grade", "9th Grade", "10th Grade", 
@@ -50,12 +55,12 @@ const gradeSubjectTopicMap = {
     "11th Grade": {
         "Science": { "Physics": ["Kinematics", "Newton's Laws", "Work and Energy"], "Chemistry": ["Atomic Structure", "Chemical Bonding", "Thermodynamics"], "Biology": ["Plant Physiology", "Human Physiology", "Genetics"], "Mathematics": ["Sets and Functions", "Trigonometry", "Complex Numbers"], "English": ["Advanced Composition", "British Literature"], },
         "Commerce": { "Accountancy": ["Financial Accounting I", "Theory Base of Accounting"], "Business Studies": ["Forms of Business Organisation", "Emerging Modes of Business"], "Economics": ["Statistics for Economics", "Microeconomics"], "English": ["Business Communication", "Report Writing"], },
-        "Arts": { "History": ["Early Societies", "Empires", "Changing Traditions"], "Political Science": ["Constitution: Why and How?", "Rights in the Indian Constitution"], "Sociology": ["Introducing Sociology", "Understanding Social Institutions"], "Psychology": ["What is Psychology?", "Methods of Enquiry in Psychology"], "English": ["Literary Theory", "World Literature Survey"], },
+        "Arts": { "History": ["Early Societies", "Empires", "Changing Traditions"], "Political Science": ["Constitution: Why and How?", "Rights in the Indian Constitution"], "Sociology": ["Introducing Sociology", "Understanding Social Institutions"], "Psychology": ["What is Psychology?", "Methods of Enquiry in Psychology"], "Economics": ["Statistics for Economics", "Introductory Microeconomics"], "Geography": ["Geography as a Discipline", "The Earth", "Landforms"], "English": ["Literary Theory", "World Literature Survey"], },
     },
     "12th Grade": {
         "Science": { "Physics": ["Electrostatics", "Magnetism", "Optics", "Modern Physics"], "Chemistry": ["Solutions", "Electrochemistry", "Organic Chemistry"], "Biology": ["Reproduction", "Genetics and Evolution", "Biotechnology"], "Mathematics": ["Calculus", "Vectors", "Probability"], "English": ["AP Literature", "Creative Writing"], },
         "Commerce": { "Accountancy": ["Accounting for Partnerships", "Company Accounts", "Cash Flow Statement"], "Business Studies": ["Principles of Management", "Marketing Management", "Consumer Protection"], "Economics": ["Macroeconomics", "Indian Economic Development"], "English": ["Advanced Business Writing", "Presentation Skills"], },
-        "Arts": { "History": ["Themes in Indian History", "Modern World History"], "Political Science": ["Contemporary World Politics", "Politics in India Since Independence"], "Sociology": ["Social Stratification", "Social Change and Development in India"], "Psychology": ["Variations in Psychological Attributes", "Therapeutic Approaches"], "English": ["Postcolonial Literature", "Critical Analysis"], },
+        "Arts": { "History": ["Themes in Indian History", "Modern World History"], "Political Science": ["Contemporary World Politics", "Politics in India Since Independence"], "Sociology": ["Social Stratification", "Social Change and Development in India"], "Psychology": ["Variations in Psychological Attributes", "Therapeutic Approaches"], "Economics": ["Introductory Macroeconomics", "Indian Economic Development"], "Geography": ["Human Geography: Nature and Scope", "Transport and Communication"], "English": ["Postcolonial Literature", "Critical Analysis"], },
     },
     "University": {
         "Engineering": {
@@ -83,6 +88,11 @@ const gradeSubjectTopicMap = {
             "History": ["Ancient Greek History", "The Roman Empire", "The French Revolution", "The Cold War"],
             "English Literature": ["Shakespearean Drama", "The Victorian Novel", "Modernist Poetry", "Literary Criticism"],
             "Art History": ["Italian Renaissance Art", "Baroque Art", "Impressionism", "Modern Art"]
+        },
+        "Journalism and Mass Communication": {
+            "Introduction to Journalism": ["History of Media", "News Writing", "Media Ethics"],
+            "Digital Media": ["Social Media Management", "Content Creation", "SEO for Journalists"],
+            "Broadcast Journalism": ["TV Reporting", "Radio Production", "Documentary Filmmaking"]
         }
     }
 };
@@ -179,6 +189,19 @@ export function ExpressGenerationClient() {
     <div className="space-y-8">
       <form action={formAction} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+            <div className="space-y-2">
+                <Label htmlFor="language">Language</Label>
+                <Select name="language" defaultValue="English">
+                    <SelectTrigger id="language">
+                        <SelectValue placeholder="Select language" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {languages.map(lang => (
+                            <SelectItem key={lang} value={lang}>{lang}</SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            </div>
             <div className="space-y-2">
                 <Label htmlFor="gradeLevel">Grade Level</Label>
                 <Select name="gradeLevel" value={grade} onValueChange={handleGradeChange}>
