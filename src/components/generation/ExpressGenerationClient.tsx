@@ -26,8 +26,18 @@ const initialState = {
 };
 
 const languages = [
-    "English", "Hindi", "Bengali", "Marathi", "Telugu", "Tamil", 
-    "Gujarati", "Kannada", "Malayalam", "Punjabi", "Odia", "Assamese"
+    { value: "English", label: "English" },
+    { value: "Hindi", label: "हिन्दी" },
+    { value: "Marathi", label: "मराठी" },
+    { value: "Gujarati", label: "ગુજરાતી" },
+    { value: "Bengali", label: "বাংলা" },
+    { value: "Tamil", label: "தமிழ்" },
+    { value: "Telugu", label: "తెలుగు" },
+    { value: "Kannada", label: "ಕನ್ನಡ" },
+    { value: "Punjabi", label: "ਪੰਜਾਬੀ" },
+    { value: "Malayalam", label: "മലയാളം" },
+    { value: "Odia", label: "ଓଡ଼ିଆ" },
+    { value: "Assamese", label: "অসমীয়া" },
 ];
 
 const gradeLevels = [
@@ -197,7 +207,7 @@ export function ExpressGenerationClient() {
                     </SelectTrigger>
                     <SelectContent>
                         {languages.map(lang => (
-                            <SelectItem key={lang} value={lang}>{lang}</SelectItem>
+                            <SelectItem key={lang.value} value={lang.value}>{lang.label}</SelectItem>
                         ))}
                     </SelectContent>
                 </Select>
