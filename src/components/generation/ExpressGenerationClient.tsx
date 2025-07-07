@@ -40,7 +40,23 @@ const gradeSubjectTopicMap = {
     "7th Grade": { "Mathematics": ["Algebraic Equations", "Probability", "Geometric Figures"], "English": ["Persuasive Writing", "Poetry Analysis", "Dystopian Literature"], "Science": ["Chemistry Basics", "Human Body Systems", "Ecology"], "History": ["American Revolution", "Medieval Europe", "Industrial Revolution"], },
     "8th Grade": { "Mathematics": ["Linear Functions", "Pythagorean Theorem", "Scientific Notation"], "English": ["Shakespeare", "Rhetorical Devices", "Thesis Statements"], "Science": ["Physics of Motion", "Chemical Reactions", "Evolution"], "History": ["The Civil War", "World War I", "The Constitution"], },
     "9th Grade": { "Biology": ["Cellular Biology", "Genetics", "Ecosystems"], "Algebra I": ["Linear Equations", "Quadratics", "Functions"], "English": ["Literary Archetypes", "Satire", "Advanced Grammar"], "World History": ["Ancient Civilizations", "Rise of Empires", "The Middle Ages"], },
-    "10th Grade": { "Geometry": ["Proofs", "Trigonometry", "Circles"], "Chemistry": ["The Periodic Table", "Stoichiometry", "Gas Laws"], "English": ["American Literature", "Research Skills", "Rhetorical Analysis"], "World History": ["The Renaissance", "The Enlightenment", "Global Conflicts"], },
+    "10th Grade": {
+        "Science": {
+            "Physics": ["Light – Reflection and Refraction", "Human Eye and Colourful World", "Electricity"],
+            "Chemistry": ["Chemical Reactions", "Acids, Bases and Salts", "Carbon Compounds"],
+            "Biology": ["Life Processes", "Reproduction", "Heredity"]
+        },
+        "Commerce": {
+            "Introduction to Commerce": ["Business Basics", "Trade and Commerce"],
+            "Elements of Book-keeping": ["Introduction to Accounting", "Journal Entries"],
+            "Mathematics": ["Algebra", "Statistics Basics"]
+        },
+        "Arts": {
+            "History": ["Nationalism in Europe", "Nationalism in India"],
+            "Civics": ["Power Sharing", "Federalism", "Political Parties"],
+            "Geography": ["Resources and Development", "Agriculture", "Minerals"]
+        }
+    },
     "11th Grade": {
         "Science": { "Physics": ["Kinematics", "Newton's Laws", "Work and Energy"], "Chemistry": ["Atomic Structure", "Chemical Bonding", "Thermodynamics"], "Biology": ["Plant Physiology", "Human Physiology", "Genetics"], "Mathematics": ["Sets and Functions", "Trigonometry", "Complex Numbers"], "English": ["Advanced Composition", "British Literature"], },
         "Commerce": { "Accountancy": ["Financial Accounting I", "Theory Base of Accounting"], "Business Studies": ["Forms of Business Organisation", "Emerging Modes of Business"], "Economics": ["Statistics for Economics", "Microeconomics"], "English": ["Business Communication", "Report Writing"], },
@@ -52,15 +68,33 @@ const gradeSubjectTopicMap = {
         "Arts": { "History": ["Themes in Indian History", "Modern World History"], "Political Science": ["Contemporary World Politics", "Politics in India Since Independence"], "Sociology": ["Social Stratification", "Social Change and Development in India"], "Psychology": ["Variations in Psychological Attributes", "Therapeutic Approaches"], "English": ["Postcolonial Literature", "Critical Analysis"], },
     },
     "University": {
-        "Computer Science": ["Data Structures", "Algorithms", "Operating Systems", "Database Management", "Computer Networks", "Artificial Intelligence"],
-        "History": ["Ancient Greek History", "The Roman Empire", "The French Revolution", "The Cold War", "History of Science"],
-        "Chemistry": ["Organic Chemistry I & II", "Physical Chemistry", "Inorganic Chemistry", "Analytical Chemistry", "Biochemistry"],
-        "Physics": ["Classical Mechanics", "Quantum Mechanics", "Electromagnetism", "Thermodynamics & Statistical Mechanics", "Astrophysics"],
-        "Mathematics": ["Calculus I, II, III", "Linear Algebra", "Differential Equations", "Abstract Algebra", "Real Analysis"],
-        "English Literature": ["Shakespearean Drama", "The Victorian Novel", "Modernist Poetry", "Literary Criticism", "Postmodernism"],
-        "Art History": ["Italian Renaissance Art", "Baroque Art", "Impressionism and Post-Impressionism", "Modern Art", "History of Photography"],
-        "Music Theory": ["Diatonic Harmony", "Chromatic Harmony", "Counterpoint", "Form and Analysis", "Orchestration"],
-    },
+        "Engineering": {
+            "Computer Science": ["Data Structures", "Algorithms", "Operating Systems", "Computer Networks"],
+            "Mechanical Engineering": ["Thermodynamics", "Fluid Mechanics", "Machine Design"],
+            "Electrical Engineering": ["Circuit Theory", "Electromagnetics", "Power Systems"],
+            "Civil Engineering": ["Structural Analysis", "Geotechnical Engineering", "Transportation Engineering"]
+        },
+        "Law": {
+            "Constitutional Law": ["Fundamental Rights", "Directive Principles", "Judiciary"],
+            "Criminal Law": ["Indian Penal Code", "Code of Criminal Procedure"],
+            "Corporate Law": ["Company Law", "Securities Law"]
+        },
+        "Business Administration (BBA)": {
+            "Marketing": ["Principles of Marketing", "Consumer Behavior", "Digital Marketing"],
+            "Finance": ["Corporate Finance", "Financial Markets", "Investment Analysis"],
+            "Human Resources": ["HR Management", "Organizational Behavior", "Talent Acquisition"]
+        },
+        "Medical": {
+            "Anatomy": ["Gross Anatomy", "Histology", "Embryology"],
+            "Physiology": ["Human Physiology", "Neurophysiology"],
+            "Biochemistry": ["Metabolism", "Enzymology"]
+        },
+        "Humanities": {
+            "History": ["Ancient Greek History", "The Roman Empire", "The French Revolution", "The Cold War"],
+            "English Literature": ["Shakespearean Drama", "The Victorian Novel", "Modernist Poetry", "Literary Criticism"],
+            "Art History": ["Italian Renaissance Art", "Baroque Art", "Impressionism", "Modern Art"]
+        }
+    }
 };
 
 function SubmitButton() {
@@ -79,7 +113,7 @@ export function ExpressGenerationClient() {
   
   const [grade, setGrade] = useState('10th Grade');
   const [streamsForGrade, setStreamsForGrade] = useState<string[]>([]);
-  const [stream, setStream] = useState('');
+  const [stream, setStream] = useState(''); // Also used for University Field
   const [subjectsForGrade, setSubjectsForGrade] = useState<string[]>([]);
   const [subject, setSubject] = useState('');
   const [topicsForSubject, setTopicsForSubject] = useState<string[]>([]);
@@ -102,14 +136,10 @@ export function ExpressGenerationClient() {
     setSubjectsForGrade([]);
     setTopicsForSubject([]);
 
-    if (["11th Grade", "12th Grade"].includes(selectedGrade)) {
+    if (["10th Grade", "11th Grade", "12th Grade", "University"].includes(selectedGrade)) {
         setStreamsForGrade(gradeDataKeys);
     } else {
         setSubjectsForGrade(gradeDataKeys);
-        if (selectedGrade === "University") {
-            setSubject(gradeDataKeys[0] || '');
-            handleSubjectChange(gradeDataKeys[0] || '', selectedGrade, '');
-        }
     }
   };
 
@@ -125,28 +155,24 @@ export function ExpressGenerationClient() {
       setTopicsForSubject([]);
   };
 
-  const handleSubjectChange = (selectedSubject: string, currentGrade?: string, currentStream?: string) => {
-    const effGrade = currentGrade || grade;
-    const effStream = currentStream || stream;
-
+  const handleSubjectChange = (selectedSubject: string) => {
     setSubject(selectedSubject);
     let newTopics: string[] = [];
-    const gradeData = gradeSubjectTopicMap[effGrade as keyof typeof gradeSubjectTopicMap];
+    const gradeData = gradeSubjectTopicMap[grade as keyof typeof gradeSubjectTopicMap];
 
     if (gradeData) {
-        if (effStream && ["11th Grade", "12th Grade"].includes(effGrade)) { // For 11th/12th grade
-            const streamData = gradeData[effStream as keyof typeof gradeData];
+        if (stream && (["10th Grade", "11th Grade", "12th Grade", "University"].includes(grade))) {
+            const streamData = gradeData[stream as keyof typeof gradeData];
             if (streamData && typeof streamData === 'object' && !Array.isArray(streamData)) {
                  newTopics = streamData[selectedSubject as keyof typeof streamData] || [];
             }
-        } else { // For grades 1-10 and University
+        } else { // For grades 1-9
             newTopics = gradeData[selectedSubject as keyof typeof gradeData] || [];
         }
     }
     setTopicsForSubject(newTopics);
     setTopic('');
   };
-
 
   useEffect(() => {
     if (state.message && !state.success) {
@@ -177,10 +203,10 @@ export function ExpressGenerationClient() {
             </div>
             {streamsForGrade.length > 0 && (
                  <div className="space-y-2">
-                    <Label htmlFor="stream">Stream</Label>
+                    <Label htmlFor="stream">{grade === 'University' ? 'Field of Study' : 'Stream'}</Label>
                     <Select name="stream" value={stream} onValueChange={handleStreamChange} required>
                         <SelectTrigger id="stream">
-                            <SelectValue placeholder="Select stream" />
+                            <SelectValue placeholder={`Select ${grade === 'University' ? 'field' : 'stream'}`} />
                         </SelectTrigger>
                         <SelectContent>
                             {streamsForGrade.map(s => (
@@ -191,10 +217,10 @@ export function ExpressGenerationClient() {
                 </div>
             )}
              <div className="space-y-2">
-                <Label htmlFor="subject">{grade === 'University' ? 'Field of Study' : 'Subject'}</Label>
-                <Select name="subject" value={subject} onValueChange={handleSubjectChange} required disabled={!grade || (streamsForGrade.length > 0 && !stream)}>
+                <Label htmlFor="subject">Subject</Label>
+                <Select name="subject" value={subject} onValueChange={handleSubjectChange} required disabled={!grade || (streamsForGrade.length > 0 && !stream) || subjectsForGrade.length === 0}>
                     <SelectTrigger id="subject">
-                        <SelectValue placeholder={`Select ${grade === 'University' ? 'field' : 'subject'}`} />
+                        <SelectValue placeholder="Select subject" />
                     </SelectTrigger>
                     <SelectContent>
                         {subjectsForGrade.map(s => (
