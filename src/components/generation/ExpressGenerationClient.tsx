@@ -39,6 +39,35 @@ export function ExpressGenerationClient() {
   const [state, formAction] = useFormState(generatePaperAction, initialState);
   const { toast } = useToast();
   const [numQuestions, setNumQuestions] = useState(10);
+  const [subject, setSubject] = useState('');
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [isSuggestionsVisible, setIsSuggestionsVisible] = useState(false);
+
+  const allSubjects = ["Physics", "History", "Mathematics", "Biology", "Chemistry", "English", "Geography", "Computer Science", "Art", "Music", "Coding"];
+
+  const handleSubjectChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSubject(value);
+    if (value) {
+        const filtered = allSubjects.filter(s => s.toLowerCase().startsWith(value.toLowerCase()));
+        setSuggestions(filtered);
+        setIsSuggestionsVisible(true);
+    } else {
+        setSuggestions([]);
+        setIsSuggestionsVisible(false);
+    }
+  }
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setSubject(suggestion);
+    setIsSuggestionsVisible(false);
+  }
+
+  const handleBlur = () => {
+    setTimeout(() => {
+        setIsSuggestionsVisible(false);
+    }, 150);
+  };
 
   useEffect(() => {
     if (state.message && !state.success) {
@@ -56,7 +85,40 @@ export function ExpressGenerationClient() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
             <div className="space-y-2">
                 <Label htmlFor="subject">Subject</Label>
-                <Input id="subject" name="subject" placeholder="e.g., Physics, History" required />
+                <div className="relative">
+                    <Input 
+                        id="subject" 
+                        name="subject" 
+                        placeholder="e.g., Physics, History" 
+                        required 
+                        value={subject}
+                        onChange={handleSubjectChange}
+                        onFocus={() => {
+                            if(subject) {
+                                const filtered = allSubjects.filter(s => s.toLowerCase().startsWith(subject.toLowerCase()));
+                                setSuggestions(filtered);
+                                setIsSuggestionsVisible(true);
+                            }
+                        }}
+                        onBlur={handleBlur}
+                        autoComplete="off"
+                    />
+                    {isSuggestionsVisible && suggestions.length > 0 && (
+                        <div className="absolute z-10 w-full mt-1 bg-popover text-popover-foreground border border-border rounded-md shadow-lg">
+                            <ul className="py-1 max-h-48 overflow-y-auto">
+                                {suggestions.map(s => (
+                                    <li 
+                                        key={s} 
+                                        className="px-3 py-2 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground"
+                                        onMouseDown={() => handleSuggestionClick(s)}
+                                    >
+                                        {s}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                </div>
             </div>
             <div className="space-y-2">
                 <Label htmlFor="gradeLevel">Grade Level</Label>
