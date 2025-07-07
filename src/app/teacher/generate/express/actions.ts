@@ -13,7 +13,7 @@ const formSchema = z.object({
   topic: z.string({ required_error: "Topic is required." }).min(1, { message: 'Topic is required.' }),
   difficultyLevel: z.enum(['easy', 'medium', 'hard']),
   gradeLevel: z.string().min(1, { message: 'Grade level is required.' }),
-  stream: z.string().optional(),
+  stream: z.string().nullable().optional(),
   mcq: z.coerce.number().min(0).max(25).default(0),
   one_liner: z.coerce.number().min(0).max(25).default(0),
   short_note: z.coerce.number().min(0).max(25).default(0),
