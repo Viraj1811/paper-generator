@@ -16,7 +16,6 @@ import { QuestionPaperPreview } from '@/components/generation/QuestionPaperPrevi
 import { Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { Checkbox } from '@/components/ui/checkbox';
 
 const initialState = {
   message: '',
@@ -121,6 +120,7 @@ export function ExpressGenerationClient() {
 
   useEffect(() => {
     handleGradeChange(grade);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleGradeChange = (selectedGrade: string) => {
@@ -255,30 +255,26 @@ export function ExpressGenerationClient() {
                     </SelectContent>
                 </Select>
             </div>
-            <div className="space-y-2">
-                <Label htmlFor="numberOfQuestions">Number of Questions</Label>
-                <Input id="numberOfQuestions" name="numberOfQuestions" type="number" defaultValue={10} min={1} max={50} required />
-            </div>
         </div>
 
         <div className="space-y-4 pt-2">
-            <Label>Question Types</Label>
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-                <div className="flex items-center space-x-2">
-                    <Checkbox id="qt_mcq" name="questionTypes" value="mcq" defaultChecked />
-                    <Label htmlFor="qt_mcq" className="font-normal cursor-pointer">Multiple Choice</Label>
+            <Label>Number of Questions</Label>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="space-y-2">
+                    <Label htmlFor="mcq" className="font-normal">Multiple Choice</Label>
+                    <Input id="mcq" name="mcq" type="number" defaultValue={10} min={0} max={25} />
                 </div>
-                <div className="flex items-center space-x-2">
-                    <Checkbox id="qt_one_liner" name="questionTypes" value="one_liner" />
-                    <Label htmlFor="qt_one_liner" className="font-normal cursor-pointer">One Liner</Label>
+                <div className="space-y-2">
+                    <Label htmlFor="one_liner" className="font-normal">One Liners</Label>
+                    <Input id="one_liner" name="one_liner" type="number" defaultValue={0} min={0} max={25} />
                 </div>
-                <div className="flex items-center space-x-2">
-                    <Checkbox id="qt_short_note" name="questionTypes" value="short_note" />
-                    <Label htmlFor="qt_short_note" className="font-normal cursor-pointer">Short Answer</Label>
+                <div className="space-y-2">
+                    <Label htmlFor="short_note" className="font-normal">Short Answers</Label>
+                    <Input id="short_note" name="short_note" type="number" defaultValue={0} min={0} max={25} />
                 </div>
-                <div className="flex items-center space-x-2">
-                    <Checkbox id="qt_long_answer" name="questionTypes" value="long_answer" />
-                    <Label htmlFor="qt_long_answer" className="font-normal cursor-pointer">Long Answer</Label>
+                <div className="space-y-2">
+                    <Label htmlFor="long_answer" className="font-normal">Long Answers</Label>
+                    <Input id="long_answer" name="long_answer" type="number" defaultValue={0} min={0} max={25} />
                 </div>
             </div>
         </div>

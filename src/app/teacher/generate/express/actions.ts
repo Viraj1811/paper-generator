@@ -7,18 +7,19 @@ import {
 } from '@/ai/flows/express-question-paper-generation';
 
 const formSchema = z.object({
-  subject: z.string().min(1, {
-    message: 'Subject is required.',
-  }),
-  topic: z.string().min(1, {
-    message: 'Topic is required.',
-  }),
-  numberOfQuestions: z.coerce.number().min(1).max(50),
+  subject: z.string().min(1, { message: 'Subject is required.' }),
+  topic: z.string().min(1, { message: 'Topic is required.' }),
   difficultyLevel: z.enum(['easy', 'medium', 'hard']),
   gradeLevel: z.string().min(1, { message: 'Grade level is required.' }),
-  questionTypes: z.array(z.enum(['mcq', 'one_liner', 'short_note', 'long_answer']))
-    .min(1, { message: 'Please select at least one question type.' }),
+  mcq: z.coerce.number().min(0).max(25).default(0),
+  one_liner: z.coerce.number().min(0).max(25).default(0),
+  short_note: z.coerce.number().min(0).max(25).default(0),
+  long_answer: z.coerce.number().min(0).max(25).default(0),
+}).refine(data => data.mcq + data.one_liner + data.short_note + data.long_answer > 0, {
+  message: "You must request at least one question.",
+  path: ["mcq"], // Path to an arbitrary field to display the error.
 });
+
 
 export type FormState = {
     message: string;
@@ -33,14 +34,17 @@ export async function generatePaperAction(
   const validatedFields = formSchema.safeParse({
     subject: formData.get('subject'),
     topic: formData.get('topic'),
-    numberOfQuestions: formData.get('numberOfQuestions'),
     difficultyLevel: formData.get('difficultyLevel'),
     gradeLevel: formData.get('gradeLevel'),
-    questionTypes: formData.getAll('questionTypes'),
+    mcq: formData.get('mcq'),
+    one_liner: formData.get('one_liner'),
+    short_note: formData.get('short_note'),
+    long_answer: formData.get('long_answer'),
   });
 
   if (!validatedFields.success) {
-    const firstError = Object.values(validatedFields.error.flatten().fieldErrors)[0]?.[0];
+    const formErrors = validatedFields.error.flatten();
+    const firstError = Object.values(formErrors.fieldErrors)[0]?.[0] || formErrors.formErrors[0];
     return {
       message: firstError || 'Invalid form data. Please check your inputs.',
       success: false,
@@ -48,7 +52,19 @@ export async function generatePaperAction(
   }
   
   try {
-    const input: ExpressQuestionPaperGenerationInput = validatedFields.data;
+    const { subject, topic, difficultyLevel, gradeLevel, mcq, one_liner, short_note, long_answer } = validatedFields.data;
+    const input: ExpressQuestionPaperGenerationInput = {
+        subject,
+        topic,
+        difficultyLevel,
+        gradeLevel,
+        questionCounts: {
+            mcq,
+            one_liner,
+            short_note,
+            long_answer,
+        },
+    };
     const result = await expressQuestionPaperGeneration(input);
     return {
       message: 'Question paper generated successfully!',
