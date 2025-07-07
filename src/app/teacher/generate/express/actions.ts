@@ -16,6 +16,7 @@ const formSchema = z.object({
   one_liner: z.coerce.number().min(0).max(25).default(0),
   short_note: z.coerce.number().min(0).max(25).default(0),
   long_answer: z.coerce.number().min(0).max(25).default(0),
+  paperCount: z.coerce.number().min(1, {message: "You must generate at least one paper."}).max(5, {message: "You can generate a maximum of 5 papers at a time."}).default(1),
 })
 .superRefine((data, ctx) => {
     if (["10th Grade", "11th Grade", "12th Grade", "University"].includes(data.gradeLevel) && (!data.stream || data.stream.length === 0)) {
@@ -34,7 +35,7 @@ const formSchema = z.object({
 
 export type FormState = {
     message: string;
-    questionPaper?: string;
+    questionPapers?: string[];
     success: boolean;
 };
 
@@ -52,6 +53,7 @@ export async function generatePaperAction(
     one_liner: formData.get('one_liner'),
     short_note: formData.get('short_note'),
     long_answer: formData.get('long_answer'),
+    paperCount: formData.get('paperCount'),
   });
 
   if (!validatedFields.success) {
@@ -64,8 +66,8 @@ export async function generatePaperAction(
   }
   
   try {
-    const { subject, topic, difficultyLevel, gradeLevel, mcq, one_liner, short_note, long_answer } = validatedFields.data;
-    const input: ExpressQuestionPaperGenerationInput = {
+    const { subject, topic, difficultyLevel, gradeLevel, mcq, one_liner, short_note, long_answer, paperCount } = validatedFields.data;
+    const baseInput: ExpressQuestionPaperGenerationInput = {
         subject,
         topic,
         difficultyLevel,
@@ -77,16 +79,25 @@ export async function generatePaperAction(
             long_answer,
         },
     };
-    const result = await expressQuestionPaperGeneration(input);
+
+    const generationPromises = Array.from({ length: paperCount }, (_, i) => {
+        // The underlying model (Gemini) is non-deterministic, so calling it multiple
+        // times with the same prompt will naturally produce different variations.
+        // No need to add a variant number to the prompt itself.
+        return expressQuestionPaperGeneration(baseInput);
+    });
+
+    const results = await Promise.all(generationPromises);
+    
     return {
-      message: 'Question paper generated successfully!',
-      questionPaper: result.questionPaper,
+      message: `${paperCount} question paper(s) generated successfully!`,
+      questionPapers: results.map(r => r.questionPaper),
       success: true,
     };
   } catch (error) {
     console.error(error);
     return {
-      message: 'An error occurred while generating the paper. Please try again.',
+      message: 'An error occurred while generating the papers. Please try again.',
       success: false,
     };
   }

@@ -16,10 +16,12 @@ import { QuestionPaperPreview } from '@/components/generation/QuestionPaperPrevi
 import { Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 
 const initialState = {
   message: '',
-  questionPaper: '',
+  questionPapers: [],
   success: false,
 };
 
@@ -101,7 +103,7 @@ function SubmitButton() {
   return (
     <Button type="submit" disabled={pending} className="w-full sm:w-auto">
       {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-      Generate Paper
+      Generate Paper(s)
     </Button>
   );
 }
@@ -255,6 +257,10 @@ export function ExpressGenerationClient() {
                     </SelectContent>
                 </Select>
             </div>
+            <div className="space-y-2">
+                <Label htmlFor="paperCount">Number of Papers</Label>
+                <Input id="paperCount" name="paperCount" type="number" defaultValue={1} min={1} max={5} />
+            </div>
         </div>
 
         <div className="space-y-4 pt-2">
@@ -270,6 +276,7 @@ export function ExpressGenerationClient() {
                 </div>
                 <div className="space-y-2">
                     <Label htmlFor="short_note" className="font-normal">Short Answers</Label>
+
                     <Input id="short_note" name="short_note" type="number" defaultValue={0} min={0} max={25} />
                 </div>
                 <div className="space-y-2">
@@ -282,8 +289,21 @@ export function ExpressGenerationClient() {
         <SubmitButton />
       </form>
 
-      {state.success && state.questionPaper && (
-        <QuestionPaperPreview content={state.questionPaper} />
+      {state.success && state.questionPapers && state.questionPapers.length > 0 && (
+        <Tabs defaultValue="paper-0" className="pt-4">
+            <TabsList>
+                 {state.questionPapers.map((_, index) => (
+                    <TabsTrigger key={`trigger-${index}`} value={`paper-${index}`}>
+                        Paper {index + 1}
+                    </TabsTrigger>
+                ))}
+            </TabsList>
+            {state.questionPapers.map((paper, index) => (
+                <TabsContent key={`content-${index}`} value={`paper-${index}`}>
+                    <QuestionPaperPreview content={paper} />
+                </TabsContent>
+            ))}
+        </Tabs>
       )}
     </div>
   );
