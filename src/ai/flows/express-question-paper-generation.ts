@@ -50,11 +50,16 @@ const prompt = ai.definePrompt({
   name: 'expressQuestionPaperGenerationPrompt',
   input: {schema: ExpressQuestionPaperGenerationInputSchema},
   output: {schema: ExpressQuestionPaperGenerationOutputSchema},
-  prompt: `You are an expert teacher. Generate a question paper for the subject '{{{subject}}}' for students of '{{{gradeLevel}}}', focusing on the topic '{{{topic}}}'.
-The entire question paper must be in the '{{{language}}}' language.
-The difficulty level of the questions should be '{{{difficultyLevel}}}'.
+  prompt: `You are an expert teacher. Your task is to generate a question paper.
+The ENTIRE question paper, including all headings, questions, and options, MUST be in the '{{{language}}}' language. Do NOT use English unless the selected language is English.
 
-The paper must contain the following number of questions for each specified type:
+Follow these instructions precisely:
+- Subject: '{{{subject}}}'
+- Grade Level: '{{{gradeLevel}}}'
+- Topic: '{{{topic}}}'
+- Difficulty: '{{{difficultyLevel}}}'
+
+The paper must contain exactly the following number of questions for each type:
 {{#if questionCounts.mcq}}
 - Multiple Choice Questions: {{{questionCounts.mcq}}}
 {{/if}}
@@ -68,15 +73,17 @@ The paper must contain the following number of questions for each specified type
 - Long Answer Questions: {{{questionCounts.long_answer}}}
 {{/if}}
 
-Only include sections for question types that have a count greater than 0. Do not generate questions for types with a count of 0 or that are not specified.
+Only create sections for question types with a count greater than 0.
 
-Format the entire output in Markdown.
-- Use a main heading (#) for the question paper title.
+Formatting instructions:
+- The entire output MUST be a single markdown string.
+- Use a main heading (#) for the question paper title (e.g., "# Physics Question Paper").
 - Use subheadings (##) for sections based on question types (e.g., "## Multiple Choice Questions").
-- Use numbered lists for questions within each section.
-- For MCQs, use nested lists for options.
-Ensure the questions are accurate, well-formatted, and appropriate for the specified grade level.
-The entire response should be a single markdown string for the question paper, and it must be entirely in '{{{language}}}'.
+- Use numbered lists for questions.
+- For Multiple Choice Questions, use nested lettered lists for options (e.g., a., b., c., d.).
+
+Ensure the questions are accurate and appropriate for the specified grade level and subject.
+Remember, the language MUST be '{{{language}}}' for the entire response.
 `,
 });
 
