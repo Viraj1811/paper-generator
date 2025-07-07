@@ -34,12 +34,12 @@ export function StudentSidebarContent() {
       <SidebarContent className="p-2">
         <SidebarMenu>
           <SidebarMenuItem>
-            <Link href="/student/dashboard" passHref legacyBehavior>
-              <SidebarMenuButton isActive={isActive('/student/dashboard')} tooltip="Dashboard">
+            <SidebarMenuButton asChild isActive={isActive('/student/dashboard')} tooltip="Dashboard">
+              <Link href="/student/dashboard">
                 <Home className={iconClass} />
                 <span className="group-data-[collapsible=icon]:hidden">Dashboard</span>
-              </SidebarMenuButton>
-            </Link>
+              </Link>
+            </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton tooltip="My Tests">
@@ -64,12 +64,12 @@ export function StudentSidebarContent() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <Link href="/" passHref legacyBehavior>
-              <SidebarMenuButton tooltip="Logout">
+            <SidebarMenuButton asChild tooltip="Logout">
+              <Link href="/">
                 <LogOut className={iconClass} />
                 <span className="group-data-[collapsible=icon]:hidden">Logout</span>
-              </SidebarMenuButton>
-            </Link>
+              </Link>
+            </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

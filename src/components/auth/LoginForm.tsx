@@ -43,11 +43,9 @@ export function LoginForm() {
                 <Label htmlFor="teacher-password">Password</Label>
                 <Input id="teacher-password" type="password" required />
               </div>
-              <Link href="/teacher/dashboard" legacyBehavior>
-                <Button asChild type="submit" className="w-full">
-                  <a>Login</a>
-                </Button>
-              </Link>
+              <Button asChild className="w-full">
+                <Link href="/teacher/dashboard">Login</Link>
+              </Button>
               <Button variant="outline" className="w-full">
                 Login with Google
               </Button>
@@ -78,11 +76,9 @@ export function LoginForm() {
                 <Label htmlFor="student-password">Password</Label>
                 <Input id="student-password" type="password" required />
               </div>
-               <Link href="/student/dashboard" legacyBehavior>
-                <Button asChild type="submit" className="w-full">
-                  <a>Login</a>
+               <Button asChild className="w-full">
+                  <Link href="/student/dashboard">Login</Link>
                 </Button>
-              </Link>
               <Button variant="outline" className="w-full">
                 Login with Google
               </Button>

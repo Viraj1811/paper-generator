@@ -36,20 +36,20 @@ export function TeacherSidebarContent() {
       <SidebarContent className="p-2">
         <SidebarMenu>
           <SidebarMenuItem>
-            <Link href="/teacher/dashboard" passHref legacyBehavior>
-              <SidebarMenuButton isActive={isActive('/teacher/dashboard')} tooltip="Dashboard">
+            <SidebarMenuButton asChild isActive={isActive('/teacher/dashboard')} tooltip="Dashboard">
+              <Link href="/teacher/dashboard">
                 <Home className={iconClass} />
                 <span className="group-data-[collapsible=icon]:hidden">Dashboard</span>
-              </SidebarMenuButton>
-            </Link>
+              </Link>
+            </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <Link href="/teacher/generate/express" passHref legacyBehavior>
-              <SidebarMenuButton isActive={isActive('/teacher/generate')} tooltip="Generate Paper">
+            <SidebarMenuButton asChild isActive={isActive('/teacher/generate')} tooltip="Generate Paper">
+              <Link href="/teacher/generate/express">
                 <FilePlus2 className={iconClass} />
                 <span className="group-data-[collapsible=icon]:hidden">Generate Paper</span>
-              </SidebarMenuButton>
-            </Link>
+              </Link>
+            </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton tooltip="Question Bank">
@@ -74,12 +74,12 @@ export function TeacherSidebarContent() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <Link href="/" passHref legacyBehavior>
-              <SidebarMenuButton tooltip="Logout">
+            <SidebarMenuButton asChild tooltip="Logout">
+              <Link href="/">
                 <LogOut className={iconClass} />
                 <span className="group-data-[collapsible=icon]:hidden">Logout</span>
-              </SidebarMenuButton>
-            </Link>
+              </Link>
+            </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

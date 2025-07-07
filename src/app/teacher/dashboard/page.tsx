@@ -56,14 +56,12 @@ export default function TeacherDashboard() {
             <CardDescription>Generate a new paper instantly using one of the modes below.</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/teacher/generate/express" passHref legacyBehavior>
-                <Button asChild size="lg" className="w-full sm:w-auto">
-                    <a>
-                        <FilePlus2 className="mr-2 h-4 w-4" />
-                        Express Mode
-                    </a>
-                </Button>
-            </Link>
+            <Button asChild size="lg" className="w-full sm:w-auto">
+                <Link href="/teacher/generate/express">
+                    <FilePlus2 className="mr-2 h-4 w-4" />
+                    Express Mode
+                </Link>
+            </Button>
             <Button size="lg" variant="outline" disabled className="w-full sm:w-auto">
                 Automated Mode (Soon)
             </Button>

@@ -40,12 +40,12 @@ export function AppHeader() {
             <span>Settings</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <Link href="/" passHref legacyBehavior>
-            <DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/">
               <LogOut className="mr-2 h-4 w-4" />
               <span>Logout</span>
-            </DropdownMenuItem>
-          </Link>
+            </Link>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>
