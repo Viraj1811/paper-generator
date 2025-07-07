@@ -25,7 +25,13 @@ const ExpressQuestionPaperGenerationInputSchema = z.object({
     one_liner: z.number().min(0).describe('Number of one-liner questions.'),
     short_note: z.number().min(0).describe('Number of short answer questions.'),
     long_answer: z.number().min(0).describe('Number of long answer questions.'),
-  }).describe('The number of questions for each type.')
+  }).describe('The number of questions for each type.'),
+  questionMarks: z.object({
+    mcq: z.number().min(1).describe('Marks for each multiple choice question.'),
+    one_liner: z.number().min(1).describe('Marks for each one-liner question.'),
+    short_note: z.number().min(1).describe('Marks for each short answer question.'),
+    long_answer: z.number().min(1).describe('Marks for each long answer question.'),
+  }).describe('The marks for each question type.'),
 });
 export type ExpressQuestionPaperGenerationInput = z.infer<
   typeof ExpressQuestionPaperGenerationInputSchema
@@ -71,16 +77,16 @@ Your primary task is to follow this specific language rule:
 The paper must contain exactly the following number of questions, organized into sections. Only create sections if the question count is greater than 0. The section titles and any instructions MUST be in '{{{language}}}'.
 
 {{#if questionCounts.mcq}}
-- **Section A: Multiple Choice Questions** (Total: {{{questionCounts.mcq}}})
+- **Section A: Multiple Choice Questions** (Total: {{{questionCounts.mcq}}}, Each: {{{questionMarks.mcq}}} Marks)
 {{/if}}
 {{#if questionCounts.one_liner}}
-- **Section B: One Liner Questions** (Total: {{{questionCounts.one_liner}}})
+- **Section B: One Liner Questions** (Total: {{{questionCounts.one_liner}}}, Each: {{{questionMarks.one_liner}}} Marks)
 {{/if}}
 {{#if questionCounts.short_note}}
-- **Section C: Short Answer Questions** (Total: {{{questionCounts.short_note}}})
+- **Section C: Short Answer Questions** (Total: {{{questionCounts.short_note}}}, Each: {{{questionMarks.short_note}}} Marks)
 {{/if}}
 {{#if questionCounts.long_answer}}
-- **Section D: Long Answer Questions** (Total: {{{questionCounts.long_answer}}})
+- **Section D: Long Answer Questions** (Total: {{{questionCounts.long_answer}}}, Each: {{{questionMarks.long_answer}}} Marks)
 {{/if}}
 
 **Formatting Rules:**
@@ -88,10 +94,11 @@ The paper must contain exactly the following number of questions, organized into
 - Use a main heading (#) for the question paper title (e.g., # Subject Name - Topic). Translate this into '{{{language}}}'.
 - Use subheadings (##) for the section titles. Translate these into '{{{language}}}'.
 - Use numbered lists for questions.
+- **At the end of each question, you MUST include the marks for that question in parentheses, like this: (X Marks).**
 - For Multiple Choice Questions, use nested lettered lists for the options (a., b., c., d.).
 - Ensure all questions are accurate and appropriate for the specified grade level and subject.
 
-**Final Instruction:** The mixed-language rule is the most important part of this task. Adhere to it strictly.
+**Final Instruction:** The mixed-language rule and the marks display rule are the most important parts of this task. Adhere to them strictly.
 `,
 });
 

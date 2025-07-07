@@ -18,6 +18,10 @@ const formSchema = z.object({
   one_liner: z.coerce.number().min(0).max(25).default(0),
   short_note: z.coerce.number().min(0).max(25).default(0),
   long_answer: z.coerce.number().min(0).max(25).default(0),
+  mcq_marks: z.coerce.number().min(1).max(10).default(1),
+  one_liner_marks: z.coerce.number().min(1).max(10).default(1),
+  short_note_marks: z.coerce.number().min(1).max(20).default(2),
+  long_answer_marks: z.coerce.number().min(1).max(50).default(5),
   paperCount: z.coerce.number().min(1, {message: "You must generate at least one paper."}).max(5, {message: "You can generate a maximum of 5 papers at a time."}).default(1),
 })
 .superRefine((data, ctx) => {
@@ -56,6 +60,10 @@ export async function generatePaperAction(
     one_liner: formData.get('one_liner'),
     short_note: formData.get('short_note'),
     long_answer: formData.get('long_answer'),
+    mcq_marks: formData.get('mcq_marks'),
+    one_liner_marks: formData.get('one_liner_marks'),
+    short_note_marks: formData.get('short_note_marks'),
+    long_answer_marks: formData.get('long_answer_marks'),
     paperCount: formData.get('paperCount'),
   });
 
@@ -69,7 +77,7 @@ export async function generatePaperAction(
   }
   
   try {
-    const { language, subject, topic, difficultyLevel, gradeLevel, mcq, one_liner, short_note, long_answer, paperCount } = validatedFields.data;
+    const { language, subject, topic, difficultyLevel, gradeLevel, mcq, one_liner, short_note, long_answer, mcq_marks, one_liner_marks, short_note_marks, long_answer_marks, paperCount } = validatedFields.data;
     const baseInput: ExpressQuestionPaperGenerationInput = {
         language,
         subject,
@@ -81,6 +89,12 @@ export async function generatePaperAction(
             one_liner,
             short_note,
             long_answer,
+        },
+        questionMarks: {
+            mcq: mcq_marks,
+            one_liner: one_liner_marks,
+            short_note: short_note_marks,
+            long_answer: long_answer_marks,
         },
     };
 

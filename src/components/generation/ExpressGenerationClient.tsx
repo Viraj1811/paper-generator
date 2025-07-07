@@ -407,25 +407,52 @@ export function ExpressGenerationClient() {
             </div>
         </div>
 
-        <div className="space-y-4 pt-2">
-            <Label>Number of Questions</Label>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="space-y-2">
-                    <Label htmlFor="mcq" className="font-normal">Multiple Choice</Label>
-                    <Input id="mcq" name="mcq" type="number" defaultValue={10} min={0} max={25} />
+        <div className="space-y-4 pt-4">
+            <Label className="text-lg font-semibold">Question Distribution & Marks</Label>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="space-y-3 rounded-lg border p-4">
+                    <Label htmlFor="mcq" className="font-medium text-base">Multiple Choice</Label>
+                    <div className="space-y-1.5">
+                        <Label htmlFor="mcq" className="text-xs text-muted-foreground">Number of Questions</Label>
+                        <Input id="mcq" name="mcq" type="number" defaultValue={10} min={0} max={25} />
+                    </div>
+                    <div className="space-y-1.5">
+                        <Label htmlFor="mcq_marks" className="text-xs text-muted-foreground">Marks per Question</Label>
+                        <Input id="mcq_marks" name="mcq_marks" type="number" defaultValue={1} min={1} max={10} />
+                    </div>
                 </div>
-                <div className="space-y-2">
-                    <Label htmlFor="one_liner" className="font-normal">One Liners</Label>
-                    <Input id="one_liner" name="one_liner" type="number" defaultValue={0} min={0} max={25} />
+                <div className="space-y-3 rounded-lg border p-4">
+                    <Label htmlFor="one_liner" className="font-medium text-base">One Liners</Label>
+                    <div className="space-y-1.5">
+                        <Label htmlFor="one_liner" className="text-xs text-muted-foreground">Number of Questions</Label>
+                        <Input id="one_liner" name="one_liner" type="number" defaultValue={0} min={0} max={25} />
+                    </div>
+                    <div className="space-y-1.5">
+                        <Label htmlFor="one_liner_marks" className="text-xs text-muted-foreground">Marks per Question</Label>
+                        <Input id="one_liner_marks" name="one_liner_marks" type="number" defaultValue={1} min={1} max={10} />
+                    </div>
                 </div>
-                <div className="space-y-2">
-                    <Label htmlFor="short_note" className="font-normal">Short Answers</Label>
-
-                    <Input id="short_note" name="short_note" type="number" defaultValue={0} min={0} max={25} />
+                <div className="space-y-3 rounded-lg border p-4">
+                    <Label htmlFor="short_note" className="font-medium text-base">Short Answers</Label>
+                    <div className="space-y-1.5">
+                        <Label htmlFor="short_note" className="text-xs text-muted-foreground">Number of Questions</Label>
+                        <Input id="short_note" name="short_note" type="number" defaultValue={0} min={0} max={25} />
+                    </div>
+                    <div className="space-y-1.5">
+                        <Label htmlFor="short_note_marks" className="text-xs text-muted-foreground">Marks per Question</Label>
+                        <Input id="short_note_marks" name="short_note_marks" type="number" defaultValue={2} min={1} max={20} />
+                    </div>
                 </div>
-                <div className="space-y-2">
-                    <Label htmlFor="long_answer" className="font-normal">Long Answers</Label>
-                    <Input id="long_answer" name="long_answer" type="number" defaultValue={0} min={0} max={25} />
+                <div className="space-y-3 rounded-lg border p-4">
+                    <Label htmlFor="long_answer" className="font-medium text-base">Long Answers</Label>
+                    <div className="space-y-1.5">
+                        <Label htmlFor="long_answer" className="text-xs text-muted-foreground">Number of Questions</Label>
+                        <Input id="long_answer" name="long_answer" type="number" defaultValue={0} min={0} max={25} />
+                    </div>
+                    <div className="space-y-1.5">
+                        <Label htmlFor="long_answer_marks" className="text-xs text-muted-foreground">Marks per Question</Label>
+                        <Input id="long_answer_marks" name="long_answer_marks" type="number" defaultValue={5} min={1} max={50} />
+                    </div>
                 </div>
             </div>
         </div>
