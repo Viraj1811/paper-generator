@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Download, Shuffle, Edit } from 'lucide-react';
-import { marked } from 'marked';
+import { Marked } from 'marked';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -51,11 +51,12 @@ export function QuestionPaperPreview({ content }: QuestionPaperPreviewProps) {
 
   const getHtmlContent = () => {
     if (!content) return { __html: '' };
-    const rawMarkup = marked.parse(content, {
+    const marked = new Marked({
       gfm: true,
       breaks: true,
       smartLists: true,
     });
+    const rawMarkup = marked.parse(content) as string;
     return { __html: rawMarkup };
   };
 
