@@ -1,6 +1,6 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { generatePaperAction } from '@/app/teacher/generate/express/actions';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/select';
 import { QuestionPaperPreview } from '@/components/generation/QuestionPaperPreview';
 import { Loader2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -238,7 +238,7 @@ function SubmitButton() {
 }
 
 export function ExpressGenerationClient() {
-  const [state, formAction] = useFormState(generatePaperAction, initialState);
+  const [state, formAction] = useActionState(generatePaperAction, initialState);
   const { toast } = useToast();
   
   const [grade, setGrade] = useState('10th Grade');
