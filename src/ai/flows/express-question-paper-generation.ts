@@ -28,7 +28,9 @@ export type ExpressQuestionPaperGenerationInput = z.infer<
 >;
 
 const ExpressQuestionPaperGenerationOutputSchema = z.object({
-  questionPaper: z.string().describe('The generated question paper.'),
+  questionPaper: z
+    .string()
+    .describe('The generated question paper in Markdown format.'),
 });
 export type ExpressQuestionPaperGenerationOutput = z.infer<
   typeof ExpressQuestionPaperGenerationOutputSchema
@@ -47,10 +49,15 @@ const prompt = ai.definePrompt({
   prompt: `You are an expert teacher. Generate a question paper for the subject '{{{subject}}}' for students of '{{{gradeLevel}}}'.
 The paper must contain exactly {{{numberOfQuestions}}} questions in total, with a difficulty level of '{{{difficultyLevel}}}'.
 The questions should be a mix of the following types: {{#each questionTypes}}{{{this}}}{{#unless @last}}, {{/unless}}{{/each}}.
-Structure the paper with clear headings for each question type (e.g., "Section A: Multiple Choice Questions").
-Ensure the questions are accurate, well-formatted, and appropriate for the specified grade level.
 
-Question Paper:`,
+Format the entire output in Markdown.
+- Use a main heading (#) for the question paper title.
+- Use subheadings (##) for sections based on question types.
+- Use numbered lists for questions.
+- For MCQs, use nested lists for options.
+Ensure the questions are accurate, well-formatted, and appropriate for the specified grade level.
+The entire response should be a single markdown string for the question paper.
+`,
 });
 
 const expressQuestionPaperGenerationFlow = ai.defineFlow(
