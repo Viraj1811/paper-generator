@@ -50,9 +50,15 @@ const prompt = ai.definePrompt({
   name: 'expressQuestionPaperGenerationPrompt',
   input: {schema: ExpressQuestionPaperGenerationInputSchema},
   output: {schema: ExpressQuestionPaperGenerationOutputSchema},
-  prompt: `You are an expert teacher and a language specialist. Your primary and most critical task is to generate a question paper ENTIRELY in the '{{{language}}}' language.
+  prompt: `You are an expert teacher and a language specialist. Your single most important and critical task is to generate a question paper ENTIRELY in the '{{{language}}}' language.
 
-**CRITICAL INSTRUCTION: The entire output, without exception, MUST be in '{{{language}}}'. This includes all titles, headings, questions, sub-questions, and multiple-choice options. Do not use any English words unless '{{{language}}}' is selected as English. For example, if the language is Hindi, the title "Multiple Choice Questions" must be translated to its Hindi equivalent like "बहुविकल्पीय प्रश्न".**
+**ABSOLUTE CRITICAL INSTRUCTION:**
+The entire output, without any exception, MUST be in the '{{{language}}}' language.
+- All titles (e.g., "# भौतिकी प्रश्न पत्र" for Hindi).
+- All section headings (e.g., "## बहुविकल्पीय प्रश्न" for Multiple Choice Questions in Hindi).
+- All questions and sub-questions.
+- All multiple-choice options (a., b., c., d.).
+- Every single word in the output must be in '{{{language}}}'. Do not use any English words unless the selected language is 'English'.
 
 Generate a question paper based on the following details:
 - Language: '{{{language}}}'
@@ -61,7 +67,7 @@ Generate a question paper based on the following details:
 - Grade Level: '{{{gradeLevel}}}'
 - Difficulty: '{{{difficultyLevel}}}'
 
-The paper must contain exactly the following number of questions for each type. Only create sections for question types with a count greater than 0:
+The paper must contain exactly the following number of questions for each type. Only create sections for question types with a count greater than 0. Remember to translate the section titles to '{{{language}}}':
 {{#if questionCounts.mcq}}
 - Multiple Choice Questions (Total: {{{questionCounts.mcq}}})
 {{/if}}
@@ -77,13 +83,13 @@ The paper must contain exactly the following number of questions for each type. 
 
 Formatting rules:
 - The entire output MUST be a single valid markdown string.
-- Use a main heading (#) for the question paper title (e.g., "# भौतिकी प्रश्न पत्र" for Hindi).
-- Use subheadings (##) for sections based on question types (e.g., "## बहुविकल्पीय प्रश्न" for Hindi).
+- Use a main heading (#) for the question paper title.
+- Use subheadings (##) for sections based on question types.
 - Use numbered lists for questions.
-- For Multiple Choice Questions, use nested lettered lists for options (e.g., a., b., c., d.).
+- For Multiple Choice Questions, use nested lettered lists for options.
 
 Ensure the questions are accurate and appropriate for the specified grade level and subject.
-Final reminder: Your response must be exclusively in the '{{{language}}}' language.
+**FINAL REMINDER:** Your entire response must be exclusively in the '{{{language}}}' language. Failure to do so will result in an incorrect output.
 `,
 });
 
