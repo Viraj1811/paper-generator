@@ -52,14 +52,13 @@ const prompt = ai.definePrompt({
   output: {schema: ExpressQuestionPaperGenerationOutputSchema},
   prompt: `You are an expert educational content creator. Your task is to generate a question paper based on the following specifications:
 
-- **Instructional Language:** '{{{language}}}' (This is the language for all instructions, titles, and general question text).
+- **Instructional Language:** '{{{language}}}'
 - **Subject:** '{{{subject}}}'
 - **Topic:** '{{{topic}}}'
 - **Grade Level:** '{{{gradeLevel}}}'
 - **Difficulty:** '{{{difficultyLevel}}}'
 
 **Core Requirement: Mixed-Language Generation**
-
 Your primary task is to follow this specific language rule:
 1.  **Translate Instructional Text:** All general text (like 'What is', 'Explain', 'Choose the correct option', section titles, and paper instructions) MUST be translated into the specified '{{{language}}}'.
 2.  **Preserve Subject Keywords:** For language-specific subjects (like Hindi, Sanskrit, English Grammar), the core technical terms (keywords) MUST be kept in their original language and script. For all other subjects (like Physics, History), translate everything into the '{{{language}}}'.
@@ -69,8 +68,7 @@ Your primary task is to follow this specific language rule:
 - If Subject is 'Hindi' and Language is 'Gujarati', the question 'What is Visheshan?' MUST become 'વિશેષણ શું છે?'
 
 **Question Paper Structure:**
-
-The paper must contain exactly the following number of questions, organized into sections. Only create sections if the question count is greater than 0. The section titles MUST be in '{{{language}}}'.
+The paper must contain exactly the following number of questions, organized into sections. Only create sections if the question count is greater than 0. The section titles and any instructions MUST be in '{{{language}}}'.
 
 {{#if questionCounts.mcq}}
 - **Section A: Multiple Choice Questions** (Total: {{{questionCounts.mcq}}})
@@ -88,7 +86,7 @@ The paper must contain exactly the following number of questions, organized into
 **Formatting Rules:**
 - The entire output MUST be a single, valid markdown string.
 - Use a main heading (#) for the question paper title (e.g., # Subject Name - Topic). Translate this into '{{{language}}}'.
-- Use subheadings (##) for the section titles (e.g., ## Section A: Multiple Choice Questions). Translate these into '{{{language}}}'.
+- Use subheadings (##) for the section titles. Translate these into '{{{language}}}'.
 - Use numbered lists for questions.
 - For Multiple Choice Questions, use nested lettered lists for the options (a., b., c., d.).
 - Ensure all questions are accurate and appropriate for the specified grade level and subject.

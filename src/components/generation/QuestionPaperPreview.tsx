@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
+import { generateSolutionAction } from '@/app/teacher/generate/express/actions';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -10,12 +11,21 @@ import {
   CardTitle,
   CardFooter,
 } from '@/components/ui/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogClose,
+} from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Download, Shuffle, Edit, Check } from 'lucide-react';
+import { Download, Shuffle, Edit, Check, Lightbulb, Loader2 } from 'lucide-react';
 import { Marked } from 'marked';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 
 interface QuestionPaperPreviewProps {
   content: string;
@@ -23,39 +33,36 @@ interface QuestionPaperPreviewProps {
 
 export function QuestionPaperPreview({ content }: QuestionPaperPreviewProps) {
   const paperContentRef = useRef<HTMLDivElement>(null);
+  const solutionContentRef = useRef<HTMLDivElement>(null);
   const [paperContent, setPaperContent] = useState(content);
   const [isEditing, setIsEditing] = useState(false);
+  
+  const [isSolutionLoading, setIsSolutionLoading] = useState(false);
+  const [solutionContent, setSolutionContent] = useState('');
+  const [isSolutionModalOpen, setIsSolutionModalOpen] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     setPaperContent(content);
     setIsEditing(false); // Reset edit mode when a new paper is generated
+    setSolutionContent(''); // Clear previous solution
   }, [content]);
 
-  const handleDownloadPdf = async () => {
-    const contentElement = paperContentRef.current;
+  const handleDownloadPdf = async (elementRef: React.RefObject<HTMLDivElement>, filename: string) => {
+    const contentElement = elementRef.current;
     if (!contentElement) {
       return;
     }
 
-    if (isEditing) {
-      // To get the rendered view, we temporarily exit edit mode
-      // This is a bit of a trick, but ensures what you see is what you download
-      await setIsEditing(false);
-    }
-
-    // A short delay to allow React to re-render the preview
-    await new Promise(resolve => setTimeout(resolve, 100));
-
-    const canvas = await html2canvas(paperContentRef.current!, {
+    const canvas = await html2canvas(contentElement, {
       scale: 2,
-      width: paperContentRef.current!.scrollWidth,
-      height: paperContentRef.current!.scrollHeight,
-      windowWidth: paperContentRef.current!.scrollWidth,
-      windowHeight: paperContentRef.current!.scrollHeight,
+      width: contentElement.scrollWidth,
+      height: contentElement.scrollHeight,
+      windowWidth: contentElement.scrollWidth,
+      windowHeight: contentElement.scrollHeight,
     });
 
     const imgData = canvas.toDataURL('image/png');
-
     const pdf = new jsPDF({
       orientation: 'portrait',
       unit: 'px',
@@ -63,59 +70,68 @@ export function QuestionPaperPreview({ content }: QuestionPaperPreviewProps) {
     });
 
     pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-    pdf.save('question-paper.pdf');
+    pdf.save(filename);
   };
 
   const handleShuffle = () => {
-    const sections = paperContent.split(/(?=^##\s.*$)/m); // Split by lines starting with ##, keeping the delimiter
+    const sections = paperContent.split(/(?=^##\s.*$)/m);
 
     const shuffledFullContent = sections.map(section => {
-        // Split section into header and questions. Questions are identified by newline + number + dot.
         const questions = section.split(/(?=\n\d+\.\s)/);
-        
         const header = questions.shift() || '';
         
-        // Don't shuffle if there's 1 or 0 questions
-        if (questions.length < 2) {
-            return section; 
-        }
+        if (questions.length < 2) return section; 
         
-        // Fisher-Yates shuffle algorithm
         for (let i = questions.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [questions[i], questions[j]] = [questions[j], questions[i]];
         }
         
-        // Re-number the shuffled questions, cleaning them up
         const renumberedQuestions = questions.map((q, index) => {
             return q.trim().replace(/^\d+\.\s/, `${index + 1}. `);
         });
         
-        // Put the section back together
         return header.trim() + '\n\n' + renumberedQuestions.join('\n\n');
     }).join('\n\n');
 
     setPaperContent(shuffledFullContent.trim());
   };
 
-  const getHtmlContent = () => {
-    if (!paperContent) return { __html: '' };
+  const handleShowSolution = async () => {
+    setIsSolutionLoading(true);
+    const result = await generateSolutionAction(paperContent);
+    setIsSolutionLoading(false);
+
+    if (result.success && result.solution) {
+      setSolutionContent(result.solution);
+      setIsSolutionModalOpen(true);
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'Error Generating Solution',
+        description: result.message,
+      });
+    }
+  };
+
+  const getHtmlContent = (markdown: string) => {
+    if (!markdown) return { __html: '' };
     const marked = new Marked({
       gfm: true,
       breaks: true,
       smartLists: true,
     });
-    const rawMarkup = marked.parse(paperContent) as string;
+    const rawMarkup = marked.parse(markdown) as string;
     return { __html: rawMarkup };
   };
 
   return (
+    <>
     <Card>
       <CardHeader>
         <CardTitle>Generated Paper Preview</CardTitle>
         <CardDescription>
-          Review the generated questions. You can edit, shuffle, or download the
-          paper.
+          Review the generated questions. You can edit, shuffle, download, or view the solution.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -131,12 +147,12 @@ export function QuestionPaperPreview({ content }: QuestionPaperPreviewProps) {
               <div
                 ref={paperContentRef}
                 className="prose dark:prose-invert prose-sm min-w-full p-4"
-                dangerouslySetInnerHTML={getHtmlContent()}
+                dangerouslySetInnerHTML={getHtmlContent(paperContent)}
               />
             </ScrollArea>
         )}
       </CardContent>
-      <CardFooter className="justify-end gap-2">
+      <CardFooter className="flex flex-wrap justify-end gap-2">
         {isEditing ? (
             <>
                 <Button variant="outline" onClick={() => {
@@ -157,12 +173,44 @@ export function QuestionPaperPreview({ content }: QuestionPaperPreviewProps) {
                 <Button variant="outline" onClick={handleShuffle}>
                   <Shuffle className="mr-2 h-4 w-4" /> Shuffle
                 </Button>
-                <Button onClick={handleDownloadPdf}>
-                  <Download className="mr-2 h-4 w-4" /> Download as PDF
+                <Button variant="outline" onClick={() => handleDownloadPdf(paperContentRef, 'question-paper.pdf')}>
+                  <Download className="mr-2 h-4 w-4" /> Download Paper
+                </Button>
+                <Button onClick={handleShowSolution} disabled={isSolutionLoading}>
+                  {isSolutionLoading ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <Lightbulb className="mr-2 h-4 w-4" />
+                  )}
+                  Show Solution
                 </Button>
             </>
         )}
       </CardFooter>
     </Card>
+
+    <Dialog open={isSolutionModalOpen} onOpenChange={setIsSolutionModalOpen}>
+      <DialogContent className="max-w-4xl w-full">
+        <DialogHeader>
+          <DialogTitle>Solutions</DialogTitle>
+        </DialogHeader>
+        <ScrollArea className="h-[60vh] w-full rounded-md border bg-card">
+          <div
+            ref={solutionContentRef}
+            className="prose dark:prose-invert prose-sm min-w-full p-4"
+            dangerouslySetInnerHTML={getHtmlContent(solutionContent)}
+          />
+        </ScrollArea>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => handleDownloadPdf(solutionContentRef, 'solution-paper.pdf')}>
+            <Download className="mr-2 h-4 w-4" /> Download as PDF
+          </Button>
+          <DialogClose asChild>
+            <Button>Close</Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+    </>
   );
 }

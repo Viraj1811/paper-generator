@@ -5,11 +5,12 @@ import {
   expressQuestionPaperGeneration,
   type ExpressQuestionPaperGenerationInput,
 } from '@/ai/flows/express-question-paper-generation';
+import { generateSolution } from '@/ai/flows/solution-generation';
 
 const formSchema = z.object({
   language: z.string().min(1, { message: 'Language is required.' }),
-  subject: z.string().min(1, { message: 'Subject is required.' }),
-  topic: z.string().min(1, { message: 'Topic is required.' }),
+  subject: z.string({ required_error: "Subject is required." }).min(1, { message: 'Subject is required.' }),
+  topic: z.string({ required_error: "Topic is required." }).min(1, { message: 'Topic is required.' }),
   difficultyLevel: z.enum(['easy', 'medium', 'hard']),
   gradeLevel: z.string().min(1, { message: 'Grade level is required.' }),
   stream: z.string().optional(),
@@ -46,11 +47,11 @@ export async function generatePaperAction(
 ): Promise<FormState> {
   const validatedFields = formSchema.safeParse({
     language: formData.get('language'),
-    subject: formData.get('subject') ?? '',
-    topic: formData.get('topic') ?? '',
+    subject: formData.get('subject'),
+    topic: formData.get('topic'),
     difficultyLevel: formData.get('difficultyLevel'),
     gradeLevel: formData.get('gradeLevel'),
-    stream: formData.get('stream') ?? '',
+    stream: formData.get('stream'),
     mcq: formData.get('mcq'),
     one_liner: formData.get('one_liner'),
     short_note: formData.get('short_note'),
@@ -104,4 +105,34 @@ export async function generatePaperAction(
       success: false,
     };
   }
+}
+
+export type SolutionState = {
+    message: string;
+    solution?: string;
+    success: boolean;
+};
+
+export async function generateSolutionAction(questionPaper: string): Promise<SolutionState> {
+    if (!questionPaper || questionPaper.trim() === '') {
+        return {
+            message: 'Cannot generate solution for an empty paper.',
+            success: false,
+        };
+    }
+
+    try {
+        const result = await generateSolution({ questionPaper });
+        return {
+            message: 'Solution generated successfully!',
+            solution: result.solution,
+            success: true,
+        };
+    } catch (error) {
+        console.error(error);
+        return {
+            message: 'An error occurred while generating the solution. Please try again.',
+            success: false,
+        };
+    }
 }
