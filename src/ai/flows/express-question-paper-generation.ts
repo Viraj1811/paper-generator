@@ -11,7 +11,7 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const ExpressQuestionPaperGenerationInputSchema = z.object({
-  language: z.string().describe('The language of the question paper, e.g., "Hindi".'),
+  language: z.string().describe('The instructional language of the question paper, e.g., "Gujarati".'),
   subject: z.string().describe('The subject of the question paper.'),
   topic: z.string().describe('The topic of the question paper.'),
   difficultyLevel: z
@@ -50,22 +50,30 @@ const prompt = ai.definePrompt({
   name: 'expressQuestionPaperGenerationPrompt',
   input: {schema: ExpressQuestionPaperGenerationInputSchema},
   output: {schema: ExpressQuestionPaperGenerationOutputSchema},
-  prompt: `You are an expert teacher and a language specialist. Your single most important and critical task is to generate a question paper ENTIRELY in the '{{{language}}}' language.
+  prompt: `You are an expert educational content creator specializing in multilingual and transliterated question papers.
 
-**ABSOLUTE CRITICAL INSTRUCTION:**
-The entire output, without any exception, MUST be in the '{{{language}}}' language.
-- All titles (e.g., "# भौतिकी प्रश्न पत्र" for Hindi).
-- All section headings (e.g., "## बहुविकल्पीय प्रश्न" for Multiple Choice Questions in Hindi).
-- All questions and sub-questions.
-- All multiple-choice options (a., b., c., d.).
-- Every single word in the output must be in '{{{language}}}'. Do not use any English words unless the selected language is 'English'.
-
-Generate a question paper based on the following details:
-- Language: '{{{language}}}'
+Your task is to generate a question paper based on the following details:
+- Instructional Language: '{{{language}}}'
 - Subject: '{{{subject}}}'
 - Topic: '{{{topic}}}'
 - Grade Level: '{{{gradeLevel}}}'
 - Difficulty: '{{{difficultyLevel}}}'
+
+**CRITICAL INSTRUCTION: Language Mixing Rule**
+Your single most important task is to follow this rule: When the subject is a language itself (e.g., Hindi, Sanskrit, English Grammar), you MUST preserve the key technical terms of that subject in their original language and script. However, you MUST translate the surrounding instructional part of the question (like 'What is', 'Explain', 'Choose the correct option') into the specified '{{{language}}}'.
+
+**Examples of the Language Mixing Rule:**
+- If Instructional Language is 'Gujarati' and Subject is 'Hindi':
+  - The question 'What is Visheshan?' should become 'વિશેષણ શું છે?'
+  - The question 'Write 5 examples of Kriya.' should become 'Kriya ના ૫ ઉદાહરણો લખો.'
+- If Instructional Language is 'English' and Subject is 'Sanskrit':
+  - The question 'Explain Sandhi with two examples.' should become 'Explain সন্ধি with two examples.'
+  - The question 'Define Alankar.' should become 'Define अलंकार.'
+
+**For Non-Language Subjects (like Physics, History, Maths):**
+For subjects that are not languages, you should translate the ENTIRE content, including technical terms, into the '{{{language}}}' to create a fully immersive paper. The language-mixing rule does not apply here.
+- Example: If the language is 'Hindi' and the subject is 'Physics', a question about 'Force' should use the Hindi word 'बल'.
+- Example: If the language is 'Marathi' and the subject is 'History', 'Mughal Empire' should be translated to 'मुघल साम्राज्य'.
 
 The paper must contain exactly the following number of questions for each type. Only create sections for question types with a count greater than 0. Remember to translate the section titles to '{{{language}}}':
 {{#if questionCounts.mcq}}
@@ -83,13 +91,14 @@ The paper must contain exactly the following number of questions for each type. 
 
 Formatting rules:
 - The entire output MUST be a single valid markdown string.
-- Use a main heading (#) for the question paper title.
-- Use subheadings (##) for sections based on question types.
+- Use a main heading (#) for the question paper title in the '{{{language}}}'.
+- Use subheadings (##) for sections based on question types, also in '{{{language}}}'.
 - Use numbered lists for questions.
 - For Multiple Choice Questions, use nested lettered lists for options.
+- All parts of the output must adhere to the language rules defined above.
 
 Ensure the questions are accurate and appropriate for the specified grade level and subject.
-**FINAL REMINDER:** Your entire response must be exclusively in the '{{{language}}}' language. Failure to do so will result in an incorrect output.
+**FINAL REMINDER:** Follow the Language Mixing Rule precisely. This is the most critical part of your task.
 `,
 });
 
