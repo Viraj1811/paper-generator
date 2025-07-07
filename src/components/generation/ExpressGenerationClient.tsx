@@ -18,6 +18,7 @@ import { useActionState, useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import Image from 'next/image';
 
 
 const initialState = {
@@ -248,11 +249,24 @@ export function ExpressGenerationClient() {
   const [subject, setSubject] = useState('');
   const [topicsForSubject, setTopicsForSubject] = useState<string[]>([]);
   const [topic, setTopic] = useState('');
+  const [headerText, setHeaderText] = useState('');
+  const [logoSrc, setLogoSrc] = useState<string | null>(null);
 
   useEffect(() => {
     handleGradeChange(grade);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  
+  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (loadEvent) => {
+        setLogoSrc(loadEvent.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleGradeChange = (selectedGrade: string) => {
     setGrade(selectedGrade);
@@ -471,6 +485,40 @@ export function ExpressGenerationClient() {
             </CardContent>
         </Card>
         
+        <Card className="hover:shadow-xl">
+            <CardHeader>
+                <CardTitle>Custom Branding (Optional)</CardTitle>
+                <CardDescription>Add a logo and header text to your generated papers.</CardDescription>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                <div className="space-y-2">
+                    <Label htmlFor="headerText">Header Text</Label>
+                    <Input
+                        id="headerText"
+                        name="headerText"
+                        placeholder="e.g., Springdale International School"
+                        value={headerText}
+                        onChange={(e) => setHeaderText(e.target.value)}
+                    />
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="logoUpload">School Logo</Label>
+                    <Input
+                        id="logoUpload"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleLogoUpload}
+                        className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
+                    />
+                </div>
+                {logoSrc && (
+                    <div className="md:col-span-2 flex justify-center">
+                        <Image src={logoSrc} alt="Logo Preview" width={100} height={100} className="object-contain rounded-md border p-2" />
+                    </div>
+                )}
+            </CardContent>
+        </Card>
+
         <div className="flex justify-start">
             <SubmitButton />
         </div>
@@ -487,7 +535,7 @@ export function ExpressGenerationClient() {
             </TabsList>
             {state.questionPapers.map((paper, index) => (
                 <TabsContent key={`content-${index}`} value={`paper-${index}`}>
-                    <QuestionPaperPreview content={paper} />
+                    <QuestionPaperPreview content={paper} headerText={headerText} logoSrc={logoSrc} />
                 </TabsContent>
             ))}
         </Tabs>

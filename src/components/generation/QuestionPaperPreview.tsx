@@ -29,11 +29,13 @@ import { useToast } from '@/hooks/use-toast';
 
 interface QuestionPaperPreviewProps {
   content: string;
+  headerText?: string;
+  logoSrc?: string | null;
 }
 
-export function QuestionPaperPreview({ content }: QuestionPaperPreviewProps) {
-  const paperContentRef = useRef<HTMLDivElement>(null);
-  const solutionContentRef = useRef<HTMLDivElement>(null);
+export function QuestionPaperPreview({ content, headerText, logoSrc }: QuestionPaperPreviewProps) {
+  const paperForPdfRef = useRef<HTMLDivElement>(null);
+  const solutionForPdfRef = useRef<HTMLDivElement>(null);
   const [paperContent, setPaperContent] = useState(content);
   const [isEditing, setIsEditing] = useState(false);
   
@@ -145,7 +147,6 @@ export function QuestionPaperPreview({ content }: QuestionPaperPreviewProps) {
         ) : (
             <ScrollArea className="h-96 w-full rounded-md border bg-card">
               <div
-                ref={paperContentRef}
                 className="prose dark:prose-invert prose-sm min-w-full p-4"
                 dangerouslySetInnerHTML={getHtmlContent(paperContent)}
               />
@@ -173,7 +174,7 @@ export function QuestionPaperPreview({ content }: QuestionPaperPreviewProps) {
                 <Button variant="outline" onClick={handleShuffle}>
                   <Shuffle className="mr-2 h-4 w-4" /> Shuffle
                 </Button>
-                <Button variant="outline" onClick={() => handleDownloadPdf(paperContentRef, 'question-paper.pdf')}>
+                <Button variant="outline" onClick={() => handleDownloadPdf(paperForPdfRef, 'question-paper.pdf')}>
                   <Download className="mr-2 h-4 w-4" /> Download Paper
                 </Button>
                 <Button onClick={handleShowSolution} disabled={isSolutionLoading}>
@@ -196,13 +197,12 @@ export function QuestionPaperPreview({ content }: QuestionPaperPreviewProps) {
         </DialogHeader>
         <ScrollArea className="h-[60vh] w-full rounded-md border bg-card">
           <div
-            ref={solutionContentRef}
             className="prose dark:prose-invert prose-sm min-w-full p-4"
             dangerouslySetInnerHTML={getHtmlContent(solutionContent)}
           />
         </ScrollArea>
         <DialogFooter>
-          <Button variant="outline" onClick={() => handleDownloadPdf(solutionContentRef, 'solution-paper.pdf')}>
+          <Button variant="outline" onClick={() => handleDownloadPdf(solutionForPdfRef, 'solution-paper.pdf')}>
             <Download className="mr-2 h-4 w-4" /> Download as PDF
           </Button>
           <DialogClose asChild>
@@ -211,6 +211,37 @@ export function QuestionPaperPreview({ content }: QuestionPaperPreviewProps) {
         </DialogFooter>
       </DialogContent>
     </Dialog>
+    
+    {/* Hidden container for PDF rendering */}
+    <div className="absolute -left-[9999px] top-auto w-[800px] text-black">
+      <div ref={paperForPdfRef} className="bg-white p-12">
+        {(logoSrc || headerText) && (
+          <div className="flex items-center justify-between pb-4 border-b mb-6">
+            {logoSrc ? ( <img src={logoSrc} alt="School Logo" className="h-20 object-contain" /> ) : <div className="w-20 h-20"/> }
+            {headerText && <div className="text-3xl font-bold text-center flex-grow mx-4">{headerText}</div>}
+            <div className="w-20 h-20" /> {/* Spacer */}
+          </div>
+        )}
+        <div
+          className="prose min-w-full"
+          dangerouslySetInnerHTML={getHtmlContent(paperContent)}
+        />
+      </div>
+      
+      <div ref={solutionForPdfRef} className="bg-white p-12">
+        {(logoSrc || headerText) && (
+          <div className="flex items-center justify-between pb-4 border-b mb-6">
+            {logoSrc ? ( <img src={logoSrc} alt="School Logo" className="h-20 object-contain" /> ) : <div className="w-20 h-20"/> }
+            {headerText && <div className="text-3xl font-bold text-center flex-grow mx-4">{headerText}</div>}
+            <div className="w-20 h-20" /> {/* Spacer */}
+          </div>
+        )}
+        <div
+          className="prose min-w-full"
+          dangerouslySetInnerHTML={getHtmlContent(solutionContent)}
+        />
+      </div>
+    </div>
     </>
   );
 }
