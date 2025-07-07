@@ -50,9 +50,9 @@ const prompt = ai.definePrompt({
   name: 'expressQuestionPaperGenerationPrompt',
   input: {schema: ExpressQuestionPaperGenerationInputSchema},
   output: {schema: ExpressQuestionPaperGenerationOutputSchema},
-  prompt: `You are an expert teacher and a language specialist. Your most important task is to generate the entire question paper strictly in the '{{{language}}}' language.
+  prompt: `You are an expert teacher and a language specialist. Your primary and most critical task is to generate a question paper ENTIRELY in the '{{{language}}}' language.
 
-**CRITICAL INSTRUCTION: The entire output, without exception, MUST be in '{{{language}}}'. This includes all titles, headings, questions, sub-questions, and multiple-choice options. Do not use any English words unless '{{{language}}}' is selected as English.**
+**CRITICAL INSTRUCTION: The entire output, without exception, MUST be in '{{{language}}}'. This includes all titles, headings, questions, sub-questions, and multiple-choice options. Do not use any English words unless '{{{language}}}' is selected as English. For example, if the language is Hindi, the title "Multiple Choice Questions" must be translated to its Hindi equivalent like "बहुविकल्पीय प्रश्न".**
 
 Generate a question paper based on the following details:
 - Language: '{{{language}}}'
