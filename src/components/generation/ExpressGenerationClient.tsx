@@ -47,30 +47,140 @@ const gradeLevels = [
 ];
 
 const gradeSubjectTopicMap = {
-    "1st Grade": { "Mathematics": ["Counting", "Addition", "Subtraction", "Shapes"], "English": ["Alphabet", "Phonics", "Simple Sentences"], "Environmental Science": ["Living Things", "Weather", "The 5 Senses"], },
-    "2nd Grade": { "Mathematics": ["Place Value", "Basic Multiplication", "Measurement"], "English": ["Reading Comprehension", "Nouns and Verbs", "Punctuation"], "Environmental Science": ["Plants", "Animals", "The Solar System"], },
-    "3rd Grade": { "Mathematics": ["Multiplication & Division", "Fractions", "Area & Perimeter"], "English": ["Writing Paragraphs", "Adjectives and Adverbs", "Story Elements"], "Science": ["Ecosystems", "Simple Machines", "Matter"], "Social Studies": ["Local Government", "Maps", "Community Helpers"], },
-    "4th Grade": { "Mathematics": ["Long Division", "Decimals", "Geometry Basics"], "English": ["Complex Sentences", "Figurative Language", "Book Reports"], "Science": ["Electricity", "Food Chains", "Geology"], "Social Studies": ["State History", "Explorers", "Branches of Government"], },
-    "5th Grade": { "Mathematics": ["Order of Operations", "Volume", "Graphing"], "English": ["Essay Writing", "Verb Tenses", "Themes in Literature"], "Science": ["Cells", "Atoms and Molecules", "Weather Systems"], "Social Studies": ["US History", "World Geography", "Ancient Civilizations"], },
-    "6th Grade": { "Mathematics": ["Ratios and Proportions", "Integers", "Expressions"], "English": ["Research Papers", "Literary Analysis", "Mythology"], "Science": ["Plate Tectonics", "Genetics Basics", "Energy"], "Social Studies": ["World History", "Civics & Government", "Economics Basics"], },
-    "7th Grade": { "Mathematics": ["Algebraic Equations", "Probability", "Geometric Figures"], "English": ["Persuasive Writing", "Poetry Analysis", "Dystopian Literature"], "Science": ["Chemistry Basics", "Human Body Systems", "Ecology"], "History": ["American Revolution", "Medieval Europe", "Industrial Revolution"], },
-    "8th Grade": { "Mathematics": ["Linear Functions", "Pythagorean Theorem", "Scientific Notation"], "English": ["Shakespeare", "Rhetorical Devices", "Thesis Statements"], "Science": ["Physics of Motion", "Chemical Reactions", "Evolution"], "History": ["The Civil War", "World War I", "The Constitution"], },
-    "9th Grade": { "Biology": ["Cellular Biology", "Genetics", "Ecosystems"], "Algebra I": ["Linear Equations", "Quadratics", "Functions"], "English": ["Literary Archetypes", "Satire", "Advanced Grammar"], "World History": ["Ancient Civilizations", "Rise of Empires", "The Middle Ages"], },
+    "1st Grade": { 
+        "English": ["Alphabet", "Phonics", "Simple Sentences"], 
+        "Mathematics": ["Counting", "Addition", "Subtraction", "Shapes"], 
+        "EVS": ["My Body", "Family", "Animals Around Us", "Plants Around Us"] 
+    },
+    "2nd Grade": { 
+        "English": ["Reading Comprehension", "Nouns and Verbs", "Punctuation"],
+        "Mathematics": ["Place Value", "Basic Multiplication", "Measurement"],
+        "EVS": ["Types of Houses", "Festivals", "Good Habits", "Our Helpers"],
+        "Hindi": ["Varnmala (Alphabet)", "Matra (Vowels)", "Simple Words"]
+    },
+    "3rd Grade": { 
+        "English": ["Writing Paragraphs", "Adjectives and Adverbs", "Story Elements"],
+        "Mathematics": ["Multiplication & Division", "Fractions", "Area & Perimeter"],
+        "EVS": ["Our Environment", "Water", "Safety and First Aid"],
+        "Hindi": ["Vachan (Number)", "Ling (Gender)", "Vilom Shabd (Antonyms)"],
+        "General Knowledge": ["Indian States", "National Symbols", "Famous Personalities"]
+    },
+    "4th Grade": { 
+        "English": ["Complex Sentences", "Figurative Language", "Book Reports"],
+        "Mathematics": ["Long Division", "Decimals", "Geometry Basics"],
+        "EVS": ["Food Chains", "Geology", "Our Environment"],
+        "Hindi": ["Sangya (Noun)", "Sarvanam (Pronoun)", "Kriya (Verb)"],
+        "General Knowledge": ["World Capitals", "Inventions", "Sports"],
+        "Computer": ["Parts of a Computer", "MS Paint", "Input and Output devices"]
+    },
+    "5th Grade": {
+        "English": ["Essay Writing", "Verb Tenses", "Themes in Literature"],
+        "Mathematics": ["Order of Operations", "Volume", "Graphing"],
+        "EVS": ["Natural Disasters", "Pollution", "Conservation"],
+        "Hindi": ["Visheshan (Adjective)", "Karak (Case)", "Muhavare (Idioms)"],
+        "General Knowledge": ["Indian History", "Famous Monuments", "Science Facts"],
+        "Computer": ["MS Word", "Internet Basics", "Computer Networks"],
+        "Moral Science": ["Honesty", "Respect for Elders", "Responsibility"]
+    },
+    "6th Grade": { 
+        "English": ["Research Papers", "Literary Analysis", "Mythology"],
+        "Hindi": ["Sandhi (Joining)", "Samas (Compound words)", "Alankar (Figures of speech)"],
+        "Mathematics": ["Ratios and Proportions", "Integers", "Expressions"],
+        "Science": ["Components of Food", "Separation of Substances", "The Body and Movements"],
+        "Social Science": ["History: What, Where, How and When?", "Geography: The Earth in the Solar System", "Civics: Understanding Diversity"],
+        "Computer": ["Introduction to QBasic", "More on MS Word", "Internet and Email"]
+    },
+    "7th Grade": { 
+        "English": ["Persuasive Writing", "Poetry Analysis", "Dystopian Literature"],
+        "Hindi": ["Ras (Aesthetics)", "Chhand (Meter)", "Kavya (Poetry)"],
+        "Mathematics": ["Algebraic Equations", "Probability", "Geometric Figures"],
+        "Science": ["Nutrition in Plants and Animals", "Fibre to Fabric", "Heat", "Acids, Bases and Salts"],
+        "Social Science": ["History: Tracing Changes Through A Thousand Years", "Geography: Environment", "Civics: On Equality"],
+        "Computer": ["HTML Basics", "Introduction to MS Excel", "Cyber Security"]
+    },
+    "8th Grade": { 
+        "English": ["Shakespeare", "Rhetorical Devices", "Thesis Statements"],
+        "Hindi": ["Hindi Sahitya ka Itihas (History of Hindi Literature)", "Patra Lekhan (Letter Writing)"],
+        "Mathematics": ["Linear Functions", "Pythagorean Theorem", "Scientific Notation"],
+        "Science": ["Crop Production and Management", "Microorganisms: Friend and Foe", "Coal and Petroleum"],
+        "Social Science": ["History: How, When and Where", "Geography: Resources", "Civics: The Indian Constitution"],
+        "Computer": ["Introduction to C++", "Data Handling in Excel", "Networking Concepts"],
+        "Sanskrit": ["Shabd Roop (Nouns)", "Dhatu Roop (Verbs)", "Anuvad (Translation)"]
+    },
+    "9th Grade": { 
+        "English": ["Literary Archetypes", "Satire", "Advanced Grammar"],
+        "Hindi": ["Kritika", "Kshitij", "Vyakaran (Grammar)"],
+        "Mathematics": ["Number Systems", "Polynomials", "Coordinate Geometry", "Euclid's Geometry"],
+        "Science": ["Matter in Our Surroundings", "The Fundamental Unit of Life", "Motion", "Force and Laws of Motion"],
+        "Social Science": ["History: The French Revolution", "Geography: India - Size and Location", "Civics: What is Democracy? Why Democracy?", "Economics: The Story of Village Palampur"],
+        "Computer": ["Basics of Information Technology", "Cyber-safety", "Office tools"],
+        "Sanskrit": ["Sandhi Prakaran", "Samas Prakaran", "Pratyaya"]
+    },
     "10th Grade": {
+        "English": ["First Flight - Prose", "First Flight - Poetry", "Footprints Without Feet", "Grammar"],
+        "Hindi": ["Kshitij (Poetry and Prose)", "Sanchayan", "Vyakaran (Grammar)"],
         "Mathematics": ["Real Numbers", "Polynomials", "Pair of Linear Equations in Two Variables", "Quadratic Equations", "Arithmetic Progressions", "Triangles", "Coordinate Geometry", "Introduction to Trigonometry", "Statistics", "Probability"],
         "Science": ["Chemical Reactions and Equations", "Acids, Bases and Salts", "Metals and Non-metals", "Carbon and its Compounds", "Life Processes", "Control and Coordination", "How do Organisms Reproduce?", "Heredity and Evolution", "Light – Reflection and Refraction", "Human Eye and the Colourful World", "Electricity", "Magnetic Effects of Electric Current"],
-        "Social Science": ["The Rise of Nationalism in Europe", "Nationalism in India", "Resources and Development", "Agriculture", "Power Sharing", "Federalism", "Political Parties", "Outcomes of Democracy", "Development", "Sectors of the Indian Economy"],
-        "English": ["Reading Comprehension", "Letter Writing", "Grammar", "First Flight - Prose", "First Flight - Poetry"]
+        "Social Science": ["History: The Rise of Nationalism in Europe", "Geography: Resources and Development", "Civics: Power Sharing", "Economics: Development"],
+        "Computer": ["Digital Documentation", "Electronic Spreadsheet", "Database Management Systems", "Web Applications and Security"]
     },
     "11th Grade": {
-        "Science": { "Physics": ["Kinematics", "Newton's Laws", "Work and Energy"], "Chemistry": ["Atomic Structure", "Chemical Bonding", "Thermodynamics"], "Biology": ["Plant Physiology", "Human Physiology", "Genetics"], "Mathematics": ["Sets and Functions", "Trigonometry", "Complex Numbers"], "English": ["Advanced Composition", "British Literature"], },
-        "Commerce": { "Accountancy": ["Financial Accounting I", "Theory Base of Accounting"], "Business Studies": ["Forms of Business Organisation", "Emerging Modes of Business"], "Economics": ["Statistics for Economics", "Microeconomics"], "English": ["Business Communication", "Report Writing"], },
-        "Arts": { "History": ["Early Societies", "Empires", "Changing Traditions"], "Political Science": ["Constitution: Why and How?", "Rights in the Indian Constitution"], "Sociology": ["Introducing Sociology", "Understanding Social Institutions"], "Psychology": ["What is Psychology?", "Methods of Enquiry in Psychology"], "Economics": ["Statistics for Economics", "Introductory Microeconomics"], "Geography": ["Geography as a Discipline", "The Earth", "Landforms"], "English": ["Literary Theory", "World Literature Survey"], },
+        "Science": { 
+            "Physics": ["Units and Measurement", "Motion in a Straight Line", "Laws of Motion", "Work, Energy and Power", "Gravitation"], 
+            "Chemistry": ["Some Basic Concepts of Chemistry", "Structure of Atom", "Classification of Elements and Periodicity in Properties", "Chemical Bonding and Molecular Structure"], 
+            "Mathematics": ["Sets", "Relations and Functions", "Trigonometric Functions", "Complex Numbers and Quadratic Equations"],
+            "Biology": ["The Living World", "Biological Classification", "Plant Kingdom", "Animal Kingdom"],
+            "English": ["Hornbill - Prose and Poetry", "Snapshots - Supplementary Reader", "Grammar and Composition"],
+            "Computer Science/IP": ["Computer Systems and Organisation", "Computational Thinking and Programming - 1", "Introduction to Python"],
+            "Physical Education": ["Changing Trends & Career in Physical Education", "Olympic Value Education", "Physical Fitness, Wellness & Lifestyle"]
+        },
+        "Commerce": { 
+            "Accountancy": ["Introduction to Accounting", "Theory Base of Accounting", "Recording of Business Transactions"],
+            "Business Studies": ["Nature and Purpose of Business", "Forms of Business Organisation", "Private, Public and Global Enterprises"],
+            "Economics": ["Indian Economy on the Eve of Independence", "Indian Economy (1950-1990)", "Statistics for Economics: Introduction"],
+            "Mathematics": ["Sets", "Relations and Functions", "Trigonometric Functions"],
+            "English": ["Business Communication", "Report Writing", "Grammar"],
+            "IP": ["Introduction to Computer System", "Introduction to Python", "Database concepts and SQL"],
+            "Physical Education": ["Changing Trends & Career in Physical Education", "Olympic Value Education", "Physical Fitness, Wellness & Lifestyle"]
+        },
+        "Arts": { 
+            "History": ["From the Beginning of Time", "Writing and City Life", "An Empire Across Three Continents"],
+            "Geography": ["Geography as a Discipline", "The Origin and Evolution of the Earth", "India: Location"],
+            "Political Science": ["Constitution: Why and How?", "Rights in the Indian Constitution", "Election and Representation"],
+            "Sociology": ["Sociology and Society", "Understanding Social Institutions", "Culture and Socialisation"],
+            "English": ["Literary Theory", "World Literature Survey", "Advanced Composition"],
+            "Psychology": ["What is Psychology?", "Methods of Enquiry in Psychology", "The Bases of Human Behaviour"],
+            "Home Science": ["Concept and scope of Home Science", "Human Development", "Food, Nutrition, Health and Fitness"]
+        },
     },
     "12th Grade": {
-        "Science": { "Physics": ["Electrostatics", "Magnetism", "Optics", "Modern Physics"], "Chemistry": ["Solutions", "Electrochemistry", "Organic Chemistry"], "Biology": ["Reproduction", "Genetics and Evolution", "Biotechnology"], "Mathematics": ["Calculus", "Vectors", "Probability"], "English": ["AP Literature", "Creative Writing"], },
-        "Commerce": { "Accountancy": ["Accounting for Partnerships", "Company Accounts", "Cash Flow Statement"], "Business Studies": ["Principles of Management", "Marketing Management", "Consumer Protection"], "Economics": ["Macroeconomics", "Indian Economic Development"], "English": ["Advanced Business Writing", "Presentation Skills"], },
-        "Arts": { "History": ["Themes in Indian History", "Modern World History"], "Political Science": ["Contemporary World Politics", "Politics in India Since Independence"], "Sociology": ["Social Stratification", "Social Change and Development in India"], "Psychology": ["Variations in Psychological Attributes", "Therapeutic Approaches"], "Economics": ["Introductory Macroeconomics", "Indian Economic Development"], "Geography": ["Human Geography: Nature and Scope", "Transport and Communication"], "English": ["Postcolonial Literature", "Critical Analysis"], },
+        "Science": { 
+            "Physics": ["Electric Charges and Fields", "Electrostatic Potential and Capacitance", "Current Electricity", "Moving Charges and Magnetism"], 
+            "Chemistry": ["Solutions", "Electrochemistry", "Chemical Kinetics", "The d-and f-Block Elements"], 
+            "Mathematics": ["Relations and Functions", "Inverse Trigonometric Functions", "Matrices", "Determinants", "Calculus"],
+            "Biology": ["Reproduction in Organisms", "Sexual Reproduction in Flowering Plants", "Human Reproduction", "Genetics and Evolution"],
+            "English": ["Flamingo - Prose and Poetry", "Vistas - Supplementary Reader", "Advanced Writing Skills"],
+            "Computer Science/IP": ["Computational Thinking and Programming - 2", "Computer Networks", "Database Management"],
+            "Physical Education": ["Planning in Sports", "Sports & Nutrition", "Yoga & Lifestyle"]
+        },
+        "Commerce": { 
+            "Accountancy": ["Accounting for Not-for-Profit Organisation", "Accounting for Partnership: Basic Concepts", "Reconstitution of a Partnership Firm"],
+            "Business Studies": ["Nature and Significance of Management", "Principles of Management", "Business Environment"],
+            "Economics": ["Introductory Macroeconomics: National Income", "Money and Banking", "Determination of Income and Employment"],
+            "Mathematics": ["Calculus", "Vectors", "Probability"],
+            "English": ["Advanced Business Writing", "Presentation Skills", "Flamingo and Vistas"],
+            "IP": ["Data Handling using Pandas", "Data Visualization", "Database Query using SQL"],
+            "Physical Education": ["Planning in Sports", "Sports & Nutrition", "Yoga & Lifestyle"]
+        },
+        "Arts": { 
+            "History": ["Bricks, Beads and Bones: The Harappan Civilisation", "Kings, Farmers and Towns", "Kinship, Caste and Class"],
+            "Geography": ["Human Geography: Nature and Scope", "The World Population: Distribution, Density and Growth", "Primary Activities"],
+            "Political Science": ["The Cold War Era", "The End of Bipolarity", "US Hegemony in World Politics"],
+            "Sociology": ["Introducing Indian Society", "The Demographic Structure of the Indian Society", "Social Institutions: Continuity and Change"],
+            "English": ["Postcolonial Literature", "Critical Analysis", "Flamingo and Vistas"],
+            "Psychology": ["Variations in Psychological Attributes", "Self and Personality", "Meeting Life Challenges"],
+            "Home Science": ["Work, Livelihood And Career", "Nutrition for Self, Family and Community", "Management of Resources"]
+        },
     },
     "University": {
         "Engineering": {
