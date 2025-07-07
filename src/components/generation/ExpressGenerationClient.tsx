@@ -25,6 +25,21 @@ const initialState = {
   success: false,
 };
 
+const subjectsAndTopics: Record<string, string[]> = {
+    "Physics": ["Kinematics", "Optics", "Thermodynamics", "Electromagnetism"],
+    "History": ["Ancient Rome", "World War II", "The Renaissance", "The Cold War"],
+    "Mathematics": ["Calculus", "Algebra", "Geometry", "Trigonometry"],
+    "Biology": ["Genetics", "Cell Biology", "Ecology", "Human Anatomy"],
+    "Chemistry": ["Organic Chemistry", "Inorganic Chemistry", "Physical Chemistry", "Biochemistry"],
+    "English": ["Shakespearean Literature", "Modernist Poetry", "Grammar and Composition", "Victorian Novels"],
+    "Geography": ["Physical Geography", "Human Geography", "Climatology", "Geopolitics"],
+    "Computer Science": ["Data Structures", "Algorithms", "Operating Systems", "Networking"],
+    "Art": ["Impressionism", "Cubism", "Surrealism", "History of Art"],
+    "Music": ["Classical Music Theory", "Jazz History", "Modern Pop Music", "Music Composition"],
+    "Coding": ["Python Basics", "JavaScript for Web", "Java Fundamentals", "C++ Programming"]
+};
+const allSubjects = Object.keys(subjectsAndTopics);
+
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
@@ -39,34 +54,15 @@ export function ExpressGenerationClient() {
   const [state, formAction] = useFormState(generatePaperAction, initialState);
   const { toast } = useToast();
   const [numQuestions, setNumQuestions] = useState(10);
+  
   const [subject, setSubject] = useState('');
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [isSuggestionsVisible, setIsSuggestionsVisible] = useState(false);
+  const [topic, setTopic] = useState('');
+  const [topicsForSubject, setTopicsForSubject] = useState<string[]>([]);
 
-  const allSubjects = ["Physics", "History", "Mathematics", "Biology", "Chemistry", "English", "Geography", "Computer Science", "Art", "Music", "Coding"];
-
-  const handleSubjectChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSubject(value);
-    if (value) {
-        const filtered = allSubjects.filter(s => s.toLowerCase().startsWith(value.toLowerCase()));
-        setSuggestions(filtered);
-        setIsSuggestionsVisible(true);
-    } else {
-        setSuggestions([]);
-        setIsSuggestionsVisible(false);
-    }
-  }
-
-  const handleSuggestionClick = (suggestion: string) => {
-    setSubject(suggestion);
-    setIsSuggestionsVisible(false);
-  }
-
-  const handleBlur = () => {
-    setTimeout(() => {
-        setIsSuggestionsVisible(false);
-    }, 150);
+  const handleSubjectChange = (selectedSubject: string) => {
+    setSubject(selectedSubject);
+    setTopic('');
+    setTopicsForSubject(subjectsAndTopics[selectedSubject] || []);
   };
 
   useEffect(() => {
@@ -85,40 +81,29 @@ export function ExpressGenerationClient() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
             <div className="space-y-2">
                 <Label htmlFor="subject">Subject</Label>
-                <div className="relative">
-                    <Input 
-                        id="subject" 
-                        name="subject" 
-                        placeholder="e.g., Physics, History" 
-                        required 
-                        value={subject}
-                        onChange={handleSubjectChange}
-                        onFocus={() => {
-                            if(subject) {
-                                const filtered = allSubjects.filter(s => s.toLowerCase().startsWith(subject.toLowerCase()));
-                                setSuggestions(filtered);
-                                setIsSuggestionsVisible(true);
-                            }
-                        }}
-                        onBlur={handleBlur}
-                        autoComplete="off"
-                    />
-                    {isSuggestionsVisible && suggestions.length > 0 && (
-                        <div className="absolute z-10 w-full mt-1 bg-popover text-popover-foreground border border-border rounded-md shadow-lg">
-                            <ul className="py-1 max-h-48 overflow-y-auto">
-                                {suggestions.map(s => (
-                                    <li 
-                                        key={s} 
-                                        className="px-3 py-2 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground"
-                                        onMouseDown={() => handleSuggestionClick(s)}
-                                    >
-                                        {s}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-                </div>
+                <Select name="subject" value={subject} onValueChange={handleSubjectChange} required>
+                    <SelectTrigger id="subject">
+                        <SelectValue placeholder="Select subject" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {allSubjects.map(s => (
+                            <SelectItem key={s} value={s}>{s}</SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            </div>
+            <div className="space-y-2">
+                <Label htmlFor="topic">Topic</Label>
+                <Select name="topic" value={topic} onValueChange={setTopic} disabled={!subject} required>
+                    <SelectTrigger id="topic">
+                        <SelectValue placeholder="Select topic" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {topicsForSubject.map(t => (
+                            <SelectItem key={t} value={t}>{t}</SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
             </div>
             <div className="space-y-2">
                 <Label htmlFor="gradeLevel">Grade Level</Label>
@@ -137,7 +122,7 @@ export function ExpressGenerationClient() {
                     </SelectContent>
                 </Select>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 md:col-span-2">
                 <Label htmlFor="numberOfQuestions">Number of Questions: {numQuestions}</Label>
                 <Slider
                   id="numberOfQuestions"

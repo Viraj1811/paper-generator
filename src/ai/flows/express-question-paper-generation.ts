@@ -12,6 +12,7 @@ import {z} from 'genkit';
 
 const ExpressQuestionPaperGenerationInputSchema = z.object({
   subject: z.string().describe('The subject of the question paper.'),
+  topic: z.string().describe('The topic of the question paper.'),
   numberOfQuestions: z.number().describe('The number of questions to generate.'),
   difficultyLevel: z
     .enum(['easy', 'medium', 'hard'])
@@ -46,7 +47,7 @@ const prompt = ai.definePrompt({
   name: 'expressQuestionPaperGenerationPrompt',
   input: {schema: ExpressQuestionPaperGenerationInputSchema},
   output: {schema: ExpressQuestionPaperGenerationOutputSchema},
-  prompt: `You are an expert teacher. Generate a question paper for the subject '{{{subject}}}' for students of '{{{gradeLevel}}}'.
+  prompt: `You are an expert teacher. Generate a question paper for the subject '{{{subject}}}' for students of '{{{gradeLevel}}}', focusing on the topic '{{{topic}}}'.
 The paper must contain exactly {{{numberOfQuestions}}} questions in total, with a difficulty level of '{{{difficultyLevel}}}'.
 The questions should be a mix of the following types: {{#each questionTypes}}{{{this}}}{{#unless @last}}, {{/unless}}{{/each}}.
 

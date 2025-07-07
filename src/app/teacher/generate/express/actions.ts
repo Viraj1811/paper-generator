@@ -7,8 +7,11 @@ import {
 } from '@/ai/flows/express-question-paper-generation';
 
 const formSchema = z.object({
-  subject: z.string().min(2, {
-    message: 'Subject must be at least 2 characters.',
+  subject: z.string().min(1, {
+    message: 'Subject is required.',
+  }),
+  topic: z.string().min(1, {
+    message: 'Topic is required.',
   }),
   numberOfQuestions: z.coerce.number().min(1).max(50),
   difficultyLevel: z.enum(['easy', 'medium', 'hard']),
@@ -29,6 +32,7 @@ export async function generatePaperAction(
 ): Promise<FormState> {
   const validatedFields = formSchema.safeParse({
     subject: formData.get('subject'),
+    topic: formData.get('topic'),
     numberOfQuestions: formData.get('numberOfQuestions'),
     difficultyLevel: formData.get('difficultyLevel'),
     gradeLevel: formData.get('gradeLevel'),
