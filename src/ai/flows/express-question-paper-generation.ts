@@ -16,6 +16,12 @@ const ExpressQuestionPaperGenerationInputSchema = z.object({
   difficultyLevel: z
     .enum(['easy', 'medium', 'hard'])
     .describe('The difficulty level of the questions.'),
+  gradeLevel: z
+    .string()
+    .describe('The grade level for the students, e.g., "10th Grade".'),
+  questionTypes: z
+    .array(z.enum(['mcq', 'one_liner', 'short_note', 'long_answer']))
+    .describe('The types of questions to include.'),
 });
 export type ExpressQuestionPaperGenerationInput = z.infer<
   typeof ExpressQuestionPaperGenerationInputSchema
@@ -38,7 +44,11 @@ const prompt = ai.definePrompt({
   name: 'expressQuestionPaperGenerationPrompt',
   input: {schema: ExpressQuestionPaperGenerationInputSchema},
   output: {schema: ExpressQuestionPaperGenerationOutputSchema},
-  prompt: `You are an expert teacher. Generate a question paper for the subject {{{subject}}} with {{{numberOfQuestions}}} questions of {{{difficultyLevel}}} difficulty. The question paper should be well-formatted and suitable for a high school student.
+  prompt: `You are an expert teacher. Generate a question paper for the subject '{{{subject}}}' for students of '{{{gradeLevel}}}'.
+The paper must contain exactly {{{numberOfQuestions}}} questions in total, with a difficulty level of '{{{difficultyLevel}}}'.
+The questions should be a mix of the following types: {{#each questionTypes}}{{{this}}}{{#unless @last}}, {{/unless}}{{/each}}.
+Structure the paper with clear headings for each question type (e.g., "Section A: Multiple Choice Questions").
+Ensure the questions are accurate, well-formatted, and appropriate for the specified grade level.
 
 Question Paper:`,
 });

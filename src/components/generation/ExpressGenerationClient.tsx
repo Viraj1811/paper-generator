@@ -17,6 +17,7 @@ import { Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Slider } from '@/components/ui/slider';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const initialState = {
   message: '',
@@ -52,10 +53,14 @@ export function ExpressGenerationClient() {
   return (
     <div className="space-y-8">
       <form action={formAction} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
             <div className="space-y-2">
                 <Label htmlFor="subject">Subject</Label>
                 <Input id="subject" name="subject" placeholder="e.g., Physics, History" required />
+            </div>
+            <div className="space-y-2">
+                <Label htmlFor="gradeLevel">Grade Level</Label>
+                <Input id="gradeLevel" name="gradeLevel" placeholder="e.g., 10th Grade" required />
             </div>
             <div className="space-y-2">
                 <Label htmlFor="difficultyLevel">Difficulty Level</Label>
@@ -83,6 +88,29 @@ export function ExpressGenerationClient() {
                 />
             </div>
         </div>
+
+        <div className="space-y-4 pt-2">
+            <Label>Question Types</Label>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+                <div className="flex items-center space-x-2">
+                    <Checkbox id="qt_mcq" name="questionTypes" value="mcq" defaultChecked />
+                    <Label htmlFor="qt_mcq" className="font-normal cursor-pointer">Multiple Choice</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                    <Checkbox id="qt_one_liner" name="questionTypes" value="one_liner" />
+                    <Label htmlFor="qt_one_liner" className="font-normal cursor-pointer">One Liner</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                    <Checkbox id="qt_short_note" name="questionTypes" value="short_note" />
+                    <Label htmlFor="qt_short_note" className="font-normal cursor-pointer">Short Answer</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                    <Checkbox id="qt_long_answer" name="questionTypes" value="long_answer" />
+                    <Label htmlFor="qt_long_answer" className="font-normal cursor-pointer">Long Answer</Label>
+                </div>
+            </div>
+        </div>
+        
         <SubmitButton />
       </form>
 
