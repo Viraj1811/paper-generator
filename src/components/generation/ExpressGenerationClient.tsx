@@ -42,21 +42,10 @@ const gradeSubjectTopicMap = {
     "8th Grade": { "Mathematics": ["Linear Functions", "Pythagorean Theorem", "Scientific Notation"], "English": ["Shakespeare", "Rhetorical Devices", "Thesis Statements"], "Science": ["Physics of Motion", "Chemical Reactions", "Evolution"], "History": ["The Civil War", "World War I", "The Constitution"], },
     "9th Grade": { "Biology": ["Cellular Biology", "Genetics", "Ecosystems"], "Algebra I": ["Linear Equations", "Quadratics", "Functions"], "English": ["Literary Archetypes", "Satire", "Advanced Grammar"], "World History": ["Ancient Civilizations", "Rise of Empires", "The Middle Ages"], },
     "10th Grade": {
-        "Science": {
-            "Physics": ["Light – Reflection and Refraction", "Human Eye and Colourful World", "Electricity"],
-            "Chemistry": ["Chemical Reactions", "Acids, Bases and Salts", "Carbon Compounds"],
-            "Biology": ["Life Processes", "Reproduction", "Heredity"]
-        },
-        "Commerce": {
-            "Introduction to Commerce": ["Business Basics", "Trade and Commerce"],
-            "Elements of Book-keeping": ["Introduction to Accounting", "Journal Entries"],
-            "Mathematics": ["Algebra", "Statistics Basics"]
-        },
-        "Arts": {
-            "History": ["Nationalism in Europe", "Nationalism in India"],
-            "Civics": ["Power Sharing", "Federalism", "Political Parties"],
-            "Geography": ["Resources and Development", "Agriculture", "Minerals"]
-        }
+        "Mathematics": ["Real Numbers", "Polynomials", "Pair of Linear Equations in Two Variables", "Quadratic Equations", "Arithmetic Progressions", "Triangles", "Coordinate Geometry", "Introduction to Trigonometry", "Statistics", "Probability"],
+        "Science": ["Chemical Reactions and Equations", "Acids, Bases and Salts", "Metals and Non-metals", "Carbon and its Compounds", "Life Processes", "Control and Coordination", "How do Organisms Reproduce?", "Heredity and Evolution", "Light – Reflection and Refraction", "Human Eye and the Colourful World", "Electricity", "Magnetic Effects of Electric Current"],
+        "Social Science": ["The Rise of Nationalism in Europe", "Nationalism in India", "Resources and Development", "Agriculture", "Power Sharing", "Federalism", "Political Parties", "Outcomes of Democracy", "Development", "Sectors of the Indian Economy"],
+        "English": ["Reading Comprehension", "Letter Writing", "Grammar", "First Flight - Prose", "First Flight - Poetry"]
     },
     "11th Grade": {
         "Science": { "Physics": ["Kinematics", "Newton's Laws", "Work and Energy"], "Chemistry": ["Atomic Structure", "Chemical Bonding", "Thermodynamics"], "Biology": ["Plant Physiology", "Human Physiology", "Genetics"], "Mathematics": ["Sets and Functions", "Trigonometry", "Complex Numbers"], "English": ["Advanced Composition", "British Literature"], },
@@ -138,7 +127,7 @@ export function ExpressGenerationClient() {
     setSubjectsForGrade([]);
     setTopicsForSubject([]);
 
-    if (["10th Grade", "11th Grade", "12th Grade", "University"].includes(selectedGrade)) {
+    if (["11th Grade", "12th Grade", "University"].includes(selectedGrade)) {
         setStreamsForGrade(gradeDataKeys);
     } else {
         setSubjectsForGrade(gradeDataKeys);
@@ -163,12 +152,12 @@ export function ExpressGenerationClient() {
     const gradeData = gradeSubjectTopicMap[grade as keyof typeof gradeSubjectTopicMap];
 
     if (gradeData) {
-        if (stream && (["10th Grade", "11th Grade", "12th Grade", "University"].includes(grade))) {
+        if (stream && (["11th Grade", "12th Grade", "University"].includes(grade))) {
             const streamData = gradeData[stream as keyof typeof gradeData];
             if (streamData && typeof streamData === 'object' && !Array.isArray(streamData)) {
                  newTopics = streamData[selectedSubject as keyof typeof streamData] || [];
             }
-        } else { // For grades 1-9
+        } else { // For grades 1-10
             newTopics = gradeData[selectedSubject as keyof typeof gradeData] || [];
         }
     }

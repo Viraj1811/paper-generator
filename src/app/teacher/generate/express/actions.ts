@@ -19,7 +19,7 @@ const formSchema = z.object({
   paperCount: z.coerce.number().min(1, {message: "You must generate at least one paper."}).max(5, {message: "You can generate a maximum of 5 papers at a time."}).default(1),
 })
 .superRefine((data, ctx) => {
-    if (["10th Grade", "11th Grade", "12th Grade", "University"].includes(data.gradeLevel) && (!data.stream || data.stream.length === 0)) {
+    if (["11th Grade", "12th Grade", "University"].includes(data.gradeLevel) && (!data.stream || data.stream.length === 0)) {
         ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: "A stream or field of study must be selected for this grade level.",
