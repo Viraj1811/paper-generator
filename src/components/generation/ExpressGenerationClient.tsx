@@ -418,7 +418,7 @@ export function ExpressGenerationClient() {
                     </div>
                     <div className="space-y-1.5">
                         <Label htmlFor="mcq_marks" className="text-xs text-muted-foreground">Marks per Question</Label>
-                        <Input id="mcq_marks" name="mcq_marks" type="number" defaultValue={1} min={1} max={10} />
+                        <Input id="mcq_marks" name="mcq_marks" type="number" defaultValue={1} min={1} max={6} />
                     </div>
                 </div>
                 <div className="space-y-3 rounded-lg border p-4">
@@ -429,7 +429,7 @@ export function ExpressGenerationClient() {
                     </div>
                     <div className="space-y-1.5">
                         <Label htmlFor="one_liner_marks" className="text-xs text-muted-foreground">Marks per Question</Label>
-                        <Input id="one_liner_marks" name="one_liner_marks" type="number" defaultValue={1} min={1} max={10} />
+                        <Input id="one_liner_marks" name="one_liner_marks" type="number" defaultValue={1} min={1} max={6} />
                     </div>
                 </div>
                 <div className="space-y-3 rounded-lg border p-4">
@@ -440,7 +440,7 @@ export function ExpressGenerationClient() {
                     </div>
                     <div className="space-y-1.5">
                         <Label htmlFor="short_note_marks" className="text-xs text-muted-foreground">Marks per Question</Label>
-                        <Input id="short_note_marks" name="short_note_marks" type="number" defaultValue={2} min={1} max={20} />
+                        <Input id="short_note_marks" name="short_note_marks" type="number" defaultValue={2} min={1} max={6} />
                     </div>
                 </div>
                 <div className="space-y-3 rounded-lg border p-4">
@@ -451,7 +451,7 @@ export function ExpressGenerationClient() {
                     </div>
                     <div className="space-y-1.5">
                         <Label htmlFor="long_answer_marks" className="text-xs text-muted-foreground">Marks per Question</Label>
-                        <Input id="long_answer_marks" name="long_answer_marks" type="number" defaultValue={5} min={1} max={50} />
+                        <Input id="long_answer_marks" name="long_answer_marks" type="number" defaultValue={5} min={1} max={6} />
                     </div>
                 </div>
             </div>

@@ -18,10 +18,10 @@ const formSchema = z.object({
   one_liner: z.coerce.number().min(0).max(25).default(0),
   short_note: z.coerce.number().min(0).max(25).default(0),
   long_answer: z.coerce.number().min(0).max(25).default(0),
-  mcq_marks: z.coerce.number().min(1).max(10).default(1),
-  one_liner_marks: z.coerce.number().min(1).max(10).default(1),
-  short_note_marks: z.coerce.number().min(1).max(20).default(2),
-  long_answer_marks: z.coerce.number().min(1).max(50).default(5),
+  mcq_marks: z.coerce.number().min(1).max(6, { message: 'Marks cannot be greater than 6.' }).default(1),
+  one_liner_marks: z.coerce.number().min(1).max(6, { message: 'Marks cannot be greater than 6.' }).default(1),
+  short_note_marks: z.coerce.number().min(1).max(6, { message: 'Marks cannot be greater than 6.' }).default(2),
+  long_answer_marks: z.coerce.number().min(1).max(6, { message: 'Marks cannot be greater than 6.' }).default(5),
   paperCount: z.coerce.number().min(1, {message: "You must generate at least one paper."}).max(5, {message: "You can generate a maximum of 5 papers at a time."}).default(1),
 })
 .superRefine((data, ctx) => {
