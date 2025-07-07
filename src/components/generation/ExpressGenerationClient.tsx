@@ -16,7 +16,6 @@ import { QuestionPaperPreview } from '@/components/generation/QuestionPaperPrevi
 import { Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
 
 const initialState = {
@@ -39,6 +38,7 @@ const subjectsAndTopics: Record<string, string[]> = {
     "Coding": ["Python Basics", "JavaScript for Web", "Java Fundamentals", "C++ Programming"]
 };
 const allSubjects = Object.keys(subjectsAndTopics);
+const gradeLevels = ["1st Grade", "2nd Grade", "3rd Grade", "4th Grade", "5th Grade", "6th Grade", "7th Grade", "8th Grade", "9th Grade", "10th Grade", "11th Grade", "12th Grade", "University"];
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -53,7 +53,6 @@ function SubmitButton() {
 export function ExpressGenerationClient() {
   const [state, formAction] = useFormState(generatePaperAction, initialState);
   const { toast } = useToast();
-  const [numQuestions, setNumQuestions] = useState(10);
   
   const [subject, setSubject] = useState('');
   const [topic, setTopic] = useState('');
@@ -107,7 +106,16 @@ export function ExpressGenerationClient() {
             </div>
             <div className="space-y-2">
                 <Label htmlFor="gradeLevel">Grade Level</Label>
-                <Input id="gradeLevel" name="gradeLevel" placeholder="e.g., 10th Grade" required />
+                <Select name="gradeLevel" defaultValue="10th Grade">
+                    <SelectTrigger id="gradeLevel">
+                        <SelectValue placeholder="Select grade" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {gradeLevels.map(g => (
+                            <SelectItem key={g} value={g}>{g}</SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
             </div>
             <div className="space-y-2">
                 <Label htmlFor="difficultyLevel">Difficulty Level</Label>
@@ -122,17 +130,9 @@ export function ExpressGenerationClient() {
                     </SelectContent>
                 </Select>
             </div>
-            <div className="space-y-2 md:col-span-2">
-                <Label htmlFor="numberOfQuestions">Number of Questions: {numQuestions}</Label>
-                <Slider
-                  id="numberOfQuestions"
-                  name="numberOfQuestions"
-                  min={1}
-                  max={50}
-                  step={1}
-                  value={[numQuestions]}
-                  onValueChange={(value) => setNumQuestions(value[0])}
-                />
+            <div className="space-y-2">
+                <Label htmlFor="numberOfQuestions">Number of Questions</Label>
+                <Input id="numberOfQuestions" name="numberOfQuestions" type="number" defaultValue={10} min={1} max={50} required />
             </div>
         </div>
 
