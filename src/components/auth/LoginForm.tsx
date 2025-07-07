@@ -23,7 +23,7 @@ export function LoginForm() {
       <TabsContent value="teacher">
         <Card className="border-0 shadow-none">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-headline">Teacher Login</CardTitle>
+            <CardTitle className="text-2xl font-semibold font-headline">Teacher Login</CardTitle>
             <CardDescription>
               Enter your email below to login to your account
             </CardDescription>
@@ -58,7 +58,7 @@ export function LoginForm() {
       <TabsContent value="student">
         <Card className="border-0 shadow-none">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-headline">Student Login</CardTitle>
+            <CardTitle className="text-2xl font-semibold font-headline">Student Login</CardTitle>
             <CardDescription>
               Enter your credentials to access your dashboard
             </CardDescription>

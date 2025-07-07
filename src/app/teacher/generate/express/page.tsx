@@ -3,18 +3,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 
 export default function ExpressGenerationPage() {
     return (
-        <div className="grid gap-6">
-            <Card>
-                <CardHeader>
-                    <CardTitle className="font-headline text-2xl">Express Question Paper Generator</CardTitle>
-                    <CardDescription>
-                        Instantly generate a question paper with AI. Just specify your requirements below.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <ExpressGenerationClient />
-                </CardContent>
-            </Card>
+        <div className="space-y-6">
+            <header>
+                <h1 className="text-3xl font-bold font-headline">Express Generator</h1>
+                <p className="text-muted-foreground">
+                    Instantly generate question papers with AI. Just specify your requirements below.
+                </p>
+            </header>
+            <ExpressGenerationClient />
         </div>
     );
 }

@@ -17,8 +17,8 @@ export default function TeacherDashboard() {
         <h1 className="text-3xl font-bold font-headline">Welcome, Teacher!</h1>
         <p className="text-muted-foreground">Here's a summary of your activities.</p>
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <Card className="hover:shadow-xl">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Questions</CardTitle>
             <BookCopy className="h-4 w-4 text-muted-foreground" />
@@ -28,7 +28,7 @@ export default function TeacherDashboard() {
             <p className="text-xs text-muted-foreground">in your question bank</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="hover:shadow-xl">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Papers Generated</CardTitle>
             <FilePlus2 className="h-4 w-4 text-muted-foreground" />
@@ -38,7 +38,7 @@ export default function TeacherDashboard() {
             <p className="text-xs text-muted-foreground">in the last month</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="hover:shadow-xl">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Active Students</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
@@ -50,7 +50,7 @@ export default function TeacherDashboard() {
         </Card>
       </div>
 
-      <Card className="text-center">
+      <Card className="text-center hover:shadow-xl">
         <CardHeader>
             <CardTitle>Create a New Question Paper</CardTitle>
             <CardDescription>Generate a new paper instantly using one of the modes below.</CardDescription>

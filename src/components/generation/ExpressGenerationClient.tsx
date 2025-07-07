@@ -17,6 +17,7 @@ import { Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 
 const initialState = {
@@ -229,7 +230,7 @@ const gradeSubjectTopicMap = {
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" disabled={pending} className="w-full sm:w-auto">
+    <Button type="submit" disabled={pending} size="lg" className="w-full sm:w-auto">
       {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
       Generate Paper(s)
     </Button>
@@ -319,145 +320,160 @@ export function ExpressGenerationClient() {
   
   return (
     <div className="space-y-8">
-      <form action={formAction} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
-            <div className="space-y-2">
-                <Label htmlFor="language">Language</Label>
-                <Select name="language" defaultValue="English">
-                    <SelectTrigger id="language">
-                        <SelectValue placeholder="Select language" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {languages.map(lang => (
-                            <SelectItem key={lang.value} value={lang.value}>{lang.label}</SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-            </div>
-            <div className="space-y-2">
-                <Label htmlFor="gradeLevel">Grade Level</Label>
-                <Select name="gradeLevel" value={grade} onValueChange={handleGradeChange}>
-                    <SelectTrigger id="gradeLevel">
-                        <SelectValue placeholder="Select grade" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {gradeLevels.map(g => (
-                            <SelectItem key={g} value={g}>{g}</SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-            </div>
-            {streamsForGrade.length > 0 && (
-                 <div className="space-y-2">
-                    <Label htmlFor="stream">{grade === 'University' ? 'Field of Study' : 'Stream'}</Label>
-                    <Select name="stream" value={stream} onValueChange={handleStreamChange} required>
-                        <SelectTrigger id="stream">
-                            <SelectValue placeholder={`Select ${grade === 'University' ? 'field' : 'stream'}`} />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {streamsForGrade.map(s => (
-                                <SelectItem key={s} value={s}>{s}</SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+      <form action={formAction} className="space-y-8">
+        <Card className="hover:shadow-xl">
+            <CardHeader>
+                <CardTitle>Paper Configuration</CardTitle>
+                <CardDescription>Set the core parameters for your question paper.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+                    <div className="space-y-2">
+                        <Label htmlFor="language">Language</Label>
+                        <Select name="language" defaultValue="English">
+                            <SelectTrigger id="language">
+                                <SelectValue placeholder="Select language" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {languages.map(lang => (
+                                    <SelectItem key={lang.value} value={lang.value}>{lang.label}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="gradeLevel">Grade Level</Label>
+                        <Select name="gradeLevel" value={grade} onValueChange={handleGradeChange}>
+                            <SelectTrigger id="gradeLevel">
+                                <SelectValue placeholder="Select grade" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {gradeLevels.map(g => (
+                                    <SelectItem key={g} value={g}>{g}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    {streamsForGrade.length > 0 && (
+                        <div className="space-y-2">
+                            <Label htmlFor="stream">{grade === 'University' ? 'Field of Study' : 'Stream'}</Label>
+                            <Select name="stream" value={stream} onValueChange={handleStreamChange} required>
+                                <SelectTrigger id="stream">
+                                    <SelectValue placeholder={`Select ${grade === 'University' ? 'field' : 'stream'}`} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {streamsForGrade.map(s => (
+                                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    )}
+                    <div className="space-y-2">
+                        <Label htmlFor="subject">Subject</Label>
+                        <Select name="subject" value={subject} onValueChange={handleSubjectChange} required disabled={!grade || (streamsForGrade.length > 0 && !stream) || subjectsForGrade.length === 0}>
+                            <SelectTrigger id="subject">
+                                <SelectValue placeholder="Select subject" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {subjectsForGrade.map(s => (
+                                    <SelectItem key={s} value={s}>{s}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="topic">{grade === 'University' ? 'Course / Paper' : 'Topic'}</Label>
+                        <Select name="topic" value={topic} onValueChange={setTopic} disabled={!subject} required>
+                            <SelectTrigger id="topic">
+                                <SelectValue placeholder={`Select ${grade === 'University' ? 'course' : 'topic'}`} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {topicsForSubject.map(t => (
+                                    <SelectItem key={t} value={t}>{t}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="difficultyLevel">Difficulty Level</Label>
+                        <Select name="difficultyLevel" defaultValue="medium">
+                            <SelectTrigger id="difficultyLevel">
+                                <SelectValue placeholder="Select difficulty" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="easy">Easy</SelectItem>
+                                <SelectItem value="medium">Medium</SelectItem>
+                                <SelectItem value="hard">Hard</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="paperCount">Number of Variations</Label>
+                        <Input id="paperCount" name="paperCount" type="number" defaultValue={1} min={1} max={5} />
+                    </div>
                 </div>
-            )}
-             <div className="space-y-2">
-                <Label htmlFor="subject">Subject</Label>
-                <Select name="subject" value={subject} onValueChange={handleSubjectChange} required disabled={!grade || (streamsForGrade.length > 0 && !stream) || subjectsForGrade.length === 0}>
-                    <SelectTrigger id="subject">
-                        <SelectValue placeholder="Select subject" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {subjectsForGrade.map(s => (
-                            <SelectItem key={s} value={s}>{s}</SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-            </div>
-            <div className="space-y-2">
-                <Label htmlFor="topic">{grade === 'University' ? 'Course / Paper' : 'Topic'}</Label>
-                <Select name="topic" value={topic} onValueChange={setTopic} disabled={!subject} required>
-                    <SelectTrigger id="topic">
-                        <SelectValue placeholder={`Select ${grade === 'University' ? 'course' : 'topic'}`} />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {topicsForSubject.map(t => (
-                            <SelectItem key={t} value={t}>{t}</SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-            </div>
-            <div className="space-y-2">
-                <Label htmlFor="difficultyLevel">Difficulty Level</Label>
-                <Select name="difficultyLevel" defaultValue="medium">
-                    <SelectTrigger id="difficultyLevel">
-                        <SelectValue placeholder="Select difficulty" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="easy">Easy</SelectItem>
-                        <SelectItem value="medium">Medium</SelectItem>
-                        <SelectItem value="hard">Hard</SelectItem>
-                    </SelectContent>
-                </Select>
-            </div>
-            <div className="space-y-2">
-                <Label htmlFor="paperCount">Number of Papers</Label>
-                <Input id="paperCount" name="paperCount" type="number" defaultValue={1} min={1} max={5} />
-            </div>
-        </div>
+            </CardContent>
+        </Card>
 
-        <div className="space-y-4 pt-4">
-            <Label className="text-lg font-semibold">Question Distribution & Marks</Label>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="space-y-3 rounded-lg border p-4">
-                    <Label htmlFor="mcq" className="font-medium text-base">Multiple Choice</Label>
-                    <div className="space-y-1.5">
-                        <Label htmlFor="mcq" className="text-xs text-muted-foreground">Number of Questions</Label>
-                        <Input id="mcq" name="mcq" type="number" defaultValue={10} min={0} max={25} />
+        <Card className="hover:shadow-xl">
+            <CardHeader>
+                <CardTitle>Question Distribution & Marks</CardTitle>
+                <CardDescription>Specify the number of questions and marks for each type.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="space-y-3 rounded-lg border bg-background/50 p-4">
+                        <Label htmlFor="mcq" className="font-medium text-base">Multiple Choice</Label>
+                        <div className="space-y-1.5">
+                            <Label htmlFor="mcq" className="text-xs text-muted-foreground">Number of Questions</Label>
+                            <Input id="mcq" name="mcq" type="number" defaultValue={10} min={0} max={25} />
+                        </div>
+                        <div className="space-y-1.5">
+                            <Label htmlFor="mcq_marks" className="text-xs text-muted-foreground">Marks per Question</Label>
+                            <Input id="mcq_marks" name="mcq_marks" type="number" defaultValue={1} min={1} max={6} />
+                        </div>
                     </div>
-                    <div className="space-y-1.5">
-                        <Label htmlFor="mcq_marks" className="text-xs text-muted-foreground">Marks per Question</Label>
-                        <Input id="mcq_marks" name="mcq_marks" type="number" defaultValue={1} min={1} max={6} />
+                    <div className="space-y-3 rounded-lg border bg-background/50 p-4">
+                        <Label htmlFor="one_liner" className="font-medium text-base">One Liners</Label>
+                        <div className="space-y-1.5">
+                            <Label htmlFor="one_liner" className="text-xs text-muted-foreground">Number of Questions</Label>
+                            <Input id="one_liner" name="one_liner" type="number" defaultValue={0} min={0} max={25} />
+                        </div>
+                        <div className="space-y-1.5">
+                            <Label htmlFor="one_liner_marks" className="text-xs text-muted-foreground">Marks per Question</Label>
+                            <Input id="one_liner_marks" name="one_liner_marks" type="number" defaultValue={1} min={1} max={6} />
+                        </div>
+                    </div>
+                    <div className="space-y-3 rounded-lg border bg-background/50 p-4">
+                        <Label htmlFor="short_note" className="font-medium text-base">Short Answers</Label>
+                        <div className="space-y-1.5">
+                            <Label htmlFor="short_note" className="text-xs text-muted-foreground">Number of Questions</Label>
+                            <Input id="short_note" name="short_note" type="number" defaultValue={0} min={0} max={25} />
+                        </div>
+                        <div className="space-y-1.5">
+                            <Label htmlFor="short_note_marks" className="text-xs text-muted-foreground">Marks per Question</Label>
+                            <Input id="short_note_marks" name="short_note_marks" type="number" defaultValue={2} min={1} max={6} />
+                        </div>
+                    </div>
+                    <div className="space-y-3 rounded-lg border bg-background/50 p-4">
+                        <Label htmlFor="long_answer" className="font-medium text-base">Long Answers</Label>
+                        <div className="space-y-1.5">
+                            <Label htmlFor="long_answer" className="text-xs text-muted-foreground">Number of Questions</Label>
+                            <Input id="long_answer" name="long_answer" type="number" defaultValue={0} min={0} max={25} />
+                        </div>
+                        <div className="space-y-1.5">
+                            <Label htmlFor="long_answer_marks" className="text-xs text-muted-foreground">Marks per Question</Label>
+                            <Input id="long_answer_marks" name="long_answer_marks" type="number" defaultValue={5} min={1} max={6} />
+                        </div>
                     </div>
                 </div>
-                <div className="space-y-3 rounded-lg border p-4">
-                    <Label htmlFor="one_liner" className="font-medium text-base">One Liners</Label>
-                    <div className="space-y-1.5">
-                        <Label htmlFor="one_liner" className="text-xs text-muted-foreground">Number of Questions</Label>
-                        <Input id="one_liner" name="one_liner" type="number" defaultValue={0} min={0} max={25} />
-                    </div>
-                    <div className="space-y-1.5">
-                        <Label htmlFor="one_liner_marks" className="text-xs text-muted-foreground">Marks per Question</Label>
-                        <Input id="one_liner_marks" name="one_liner_marks" type="number" defaultValue={1} min={1} max={6} />
-                    </div>
-                </div>
-                <div className="space-y-3 rounded-lg border p-4">
-                    <Label htmlFor="short_note" className="font-medium text-base">Short Answers</Label>
-                    <div className="space-y-1.5">
-                        <Label htmlFor="short_note" className="text-xs text-muted-foreground">Number of Questions</Label>
-                        <Input id="short_note" name="short_note" type="number" defaultValue={0} min={0} max={25} />
-                    </div>
-                    <div className="space-y-1.5">
-                        <Label htmlFor="short_note_marks" className="text-xs text-muted-foreground">Marks per Question</Label>
-                        <Input id="short_note_marks" name="short_note_marks" type="number" defaultValue={2} min={1} max={6} />
-                    </div>
-                </div>
-                <div className="space-y-3 rounded-lg border p-4">
-                    <Label htmlFor="long_answer" className="font-medium text-base">Long Answers</Label>
-                    <div className="space-y-1.5">
-                        <Label htmlFor="long_answer" className="text-xs text-muted-foreground">Number of Questions</Label>
-                        <Input id="long_answer" name="long_answer" type="number" defaultValue={0} min={0} max={25} />
-                    </div>
-                    <div className="space-y-1.5">
-                        <Label htmlFor="long_answer_marks" className="text-xs text-muted-foreground">Marks per Question</Label>
-                        <Input id="long_answer_marks" name="long_answer_marks" type="number" defaultValue={5} min={1} max={6} />
-                    </div>
-                </div>
-            </div>
-        </div>
+            </CardContent>
+        </Card>
         
-        <SubmitButton />
+        <div className="flex justify-start">
+            <SubmitButton />
+        </div>
       </form>
 
       {state.success && state.questionPapers && state.questionPapers.length > 0 && (
@@ -465,7 +481,7 @@ export function ExpressGenerationClient() {
             <TabsList>
                  {state.questionPapers.map((_, index) => (
                     <TabsTrigger key={`trigger-${index}`} value={`paper-${index}`}>
-                        Paper {index + 1}
+                        Variation {index + 1}
                     </TabsTrigger>
                 ))}
             </TabsList>

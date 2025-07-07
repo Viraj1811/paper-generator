@@ -4,10 +4,10 @@ import { LoginForm } from '@/components/auth/LoginForm';
 export default function LoginPage() {
   return (
     <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2 xl:min-h-screen">
-      <div className="flex items-center justify-center py-12">
+      <div className="flex items-center justify-center p-6 sm:p-12">
         <div className="mx-auto grid w-[350px] gap-6">
-          <div className="grid gap-2 text-center">
-            <h1 className="text-3xl font-bold font-headline">ExamCraft</h1>
+          <div className="grid gap-4 text-center">
+            <h1 className="text-4xl font-bold tracking-tight font-headline">ExamCraft</h1>
             <p className="text-balance text-muted-foreground">
               The intelligent question paper generator
             </p>
@@ -15,7 +15,7 @@ export default function LoginPage() {
           <LoginForm />
         </div>
       </div>
-      <div className="hidden bg-muted lg:block">
+      <div className="hidden bg-secondary lg:block">
         <Image
           src="https://placehold.co/1080/1920.png"
           alt="Image"
