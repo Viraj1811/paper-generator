@@ -31,84 +31,35 @@ const gradeLevels = [
 ];
 
 const gradeSubjectTopicMap = {
-    "1st Grade": {
-        "Mathematics": ["Counting", "Addition", "Subtraction", "Shapes"],
-        "English": ["Alphabet", "Phonics", "Simple Sentences"],
-        "Science": ["Living Things", "Weather", "The 5 Senses"],
-    },
-    "2nd Grade": {
-        "Mathematics": ["Place Value", "Basic Multiplication", "Measurement"],
-        "English": ["Reading Comprehension", "Nouns and Verbs", "Punctuation"],
-        "Science": ["Plants", "Animals", "The Solar System"],
-    },
-    "3rd Grade": {
-        "Mathematics": ["Multiplication & Division", "Fractions", "Area & Perimeter"],
-        "English": ["Writing Paragraphs", "Adjectives and Adverbs", "Story Elements"],
-        "Science": ["Ecosystems", "Simple Machines", "Matter"],
-    },
-    "4th Grade": {
-        "Mathematics": ["Long Division", "Decimals", "Geometry Basics"],
-        "English": ["Complex Sentences", "Figurative Language", "Book Reports"],
-        "Science": ["Electricity", "Food Chains", "Geology"],
-    },
-    "5th Grade": {
-        "Mathematics": ["Order of Operations", "Volume", "Graphing"],
-        "English": ["Essay Writing", "Verb Tenses", "Themes in Literature"],
-        "Social Studies": ["US History", "World Geography", "Ancient Civilizations"],
-        "Science": ["Cells", "Atoms and Molecules", "Weather Systems"],
-    },
-    "6th Grade": {
-        "Mathematics": ["Ratios and Proportions", "Integers", "Expressions"],
-        "English": ["Research Papers", "Literary Analysis", "Greek Mythology"],
-        "Social Studies": ["World History", "Civics & Government", "Economics Basics"],
-        "Science": ["Plate Tectonics", "Genetics Basics", "Energy"],
-    },
-    "7th Grade": {
-        "Mathematics": ["Algebraic Equations", "Probability", "Geometric Figures"],
-        "English": ["Persuasive Writing", "Poetry Analysis", "Dystopian Literature"],
-        "History": ["American Revolution", "Medieval Europe", "Industrial Revolution"],
-        "Science": ["Chemistry Basics", "Human Body Systems", "Ecology"],
-    },
-    "8th Grade": {
-        "Mathematics": ["Linear Functions", "Pythagorean Theorem", "Scientific Notation"],
-        "English": ["Shakespeare", "Rhetorical Devices", "Thesis Statements"],
-        "History": ["The Civil War", "World War I", "The Constitution"],
-        "Science": ["Physics of Motion", "Chemical Reactions", "Evolution"],
-    },
-    "9th Grade": {
-        "English": ["Literary Archetypes", "Satire", "Advanced Grammar"],
-        "Algebra I": ["Linear Equations", "Quadratics", "Functions"],
-        "Biology": ["Cellular Biology", "Genetics", "Ecosystems"],
-        "World History": ["Ancient Civilizations", "Rise of Empires", "The Middle Ages"],
-    },
-    "10th Grade": {
-        "English": ["American Literature", "Research Skills", "Rhetorical Analysis"],
-        "Geometry": ["Proofs", "Trigonometry", "Circles"],
-        "Chemistry": ["The Periodic Table", "Stoichiometry", "Gas Laws", "Acids and Bases"],
-        "World History": ["The Renaissance", "The Enlightenment", "Global Conflicts"],
-    },
+    "1st Grade": { "Mathematics": ["Counting", "Addition", "Subtraction", "Shapes"], "English": ["Alphabet", "Phonics", "Simple Sentences"], "Environmental Science": ["Living Things", "Weather", "The 5 Senses"], },
+    "2nd Grade": { "Mathematics": ["Place Value", "Basic Multiplication", "Measurement"], "English": ["Reading Comprehension", "Nouns and Verbs", "Punctuation"], "Environmental Science": ["Plants", "Animals", "The Solar System"], },
+    "3rd Grade": { "Mathematics": ["Multiplication & Division", "Fractions", "Area & Perimeter"], "English": ["Writing Paragraphs", "Adjectives and Adverbs", "Story Elements"], "Science": ["Ecosystems", "Simple Machines", "Matter"], "Social Studies": ["Local Government", "Maps", "Community Helpers"], },
+    "4th Grade": { "Mathematics": ["Long Division", "Decimals", "Geometry Basics"], "English": ["Complex Sentences", "Figurative Language", "Book Reports"], "Science": ["Electricity", "Food Chains", "Geology"], "Social Studies": ["State History", "Explorers", "Branches of Government"], },
+    "5th Grade": { "Mathematics": ["Order of Operations", "Volume", "Graphing"], "English": ["Essay Writing", "Verb Tenses", "Themes in Literature"], "Science": ["Cells", "Atoms and Molecules", "Weather Systems"], "Social Studies": ["US History", "World Geography", "Ancient Civilizations"], },
+    "6th Grade": { "Mathematics": ["Ratios and Proportions", "Integers", "Expressions"], "English": ["Research Papers", "Literary Analysis", "Mythology"], "Science": ["Plate Tectonics", "Genetics Basics", "Energy"], "Social Studies": ["World History", "Civics & Government", "Economics Basics"], },
+    "7th Grade": { "Mathematics": ["Algebraic Equations", "Probability", "Geometric Figures"], "English": ["Persuasive Writing", "Poetry Analysis", "Dystopian Literature"], "Science": ["Chemistry Basics", "Human Body Systems", "Ecology"], "History": ["American Revolution", "Medieval Europe", "Industrial Revolution"], },
+    "8th Grade": { "Mathematics": ["Linear Functions", "Pythagorean Theorem", "Scientific Notation"], "English": ["Shakespeare", "Rhetorical Devices", "Thesis Statements"], "Science": ["Physics of Motion", "Chemical Reactions", "Evolution"], "History": ["The Civil War", "World War I", "The Constitution"], },
+    "9th Grade": { "Biology": ["Cellular Biology", "Genetics", "Ecosystems"], "Algebra I": ["Linear Equations", "Quadratics", "Functions"], "English": ["Literary Archetypes", "Satire", "Advanced Grammar"], "World History": ["Ancient Civilizations", "Rise of Empires", "The Middle Ages"], },
+    "10th Grade": { "Geometry": ["Proofs", "Trigonometry", "Circles"], "Chemistry": ["The Periodic Table", "Stoichiometry", "Gas Laws"], "English": ["American Literature", "Research Skills", "Rhetorical Analysis"], "World History": ["The Renaissance", "The Enlightenment", "Global Conflicts"], },
     "11th Grade": {
-        "English": ["British Literature", "AP Language & Composition", "Modernist Literature"],
-        "Algebra II": ["Polynomials", "Logarithms", "Matrices"],
-        "Physics": ["Kinematics", "Newton's Laws", "Thermodynamics", "Electromagnetism"],
-        "US History": ["Colonial Period", "Westward Expansion", "The Gilded Age", "The Cold War"],
+        "Science": { "Physics": ["Kinematics", "Newton's Laws", "Work and Energy"], "Chemistry": ["Atomic Structure", "Chemical Bonding", "Thermodynamics"], "Biology": ["Plant Physiology", "Human Physiology", "Genetics"], "Mathematics": ["Sets and Functions", "Trigonometry", "Complex Numbers"], "English": ["Advanced Composition", "British Literature"], },
+        "Commerce": { "Accountancy": ["Financial Accounting I", "Theory Base of Accounting"], "Business Studies": ["Forms of Business Organisation", "Emerging Modes of Business"], "Economics": ["Statistics for Economics", "Microeconomics"], "English": ["Business Communication", "Report Writing"], },
+        "Arts": { "History": ["Early Societies", "Empires", "Changing Traditions"], "Political Science": ["Constitution: Why and How?", "Rights in the Indian Constitution"], "Sociology": ["Introducing Sociology", "Understanding Social Institutions"], "Psychology": ["What is Psychology?", "Methods of Enquiry in Psychology"], "English": ["Literary Theory", "World Literature Survey"], },
     },
     "12th Grade": {
-        "English": ["AP Literature", "Creative Writing", "World Literature"],
-        "Pre-Calculus": ["Trigonometric Functions", "Vectors", "Limits"],
-        "AP Biology": ["Advanced Cellular Processes", "Evolutionary Biology", "Biotechnology"],
-        "AP Physics": ["Modern Physics", "Quantum Mechanics", "Relativity"],
-        "Government": ["US Government", "Comparative Politics", "Political Theory"],
+        "Science": { "Physics": ["Electrostatics", "Magnetism", "Optics", "Modern Physics"], "Chemistry": ["Solutions", "Electrochemistry", "Organic Chemistry"], "Biology": ["Reproduction", "Genetics and Evolution", "Biotechnology"], "Mathematics": ["Calculus", "Vectors", "Probability"], "English": ["AP Literature", "Creative Writing"], },
+        "Commerce": { "Accountancy": ["Accounting for Partnerships", "Company Accounts", "Cash Flow Statement"], "Business Studies": ["Principles of Management", "Marketing Management", "Consumer Protection"], "Economics": ["Macroeconomics", "Indian Economic Development"], "English": ["Advanced Business Writing", "Presentation Skills"], },
+        "Arts": { "History": ["Themes in Indian History", "Modern World History"], "Political Science": ["Contemporary World Politics", "Politics in India Since Independence"], "Sociology": ["Social Stratification", "Social Change and Development in India"], "Psychology": ["Variations in Psychological Attributes", "Therapeutic Approaches"], "English": ["Postcolonial Literature", "Critical Analysis"], },
     },
     "University": {
-        "Computer Science": ["Data Structures", "Algorithms", "Operating Systems", "Networking"],
-        "Chemistry": ["Organic Chemistry", "Inorganic Chemistry", "Physical Chemistry", "Biochemistry"],
-        "Physics": ["Classical Mechanics", "Quantum Physics", "Astrophysics"],
-        "Mathematics": ["Calculus", "Linear Algebra", "Differential Equations"],
-        "History": ["Ancient Rome", "World War II", "The Renaissance"],
-        "English": ["Shakespearean Literature", "Modernist Poetry", "Victorian Novels"],
-        "Art": ["Impressionism", "Cubism", "Surrealism", "History of Art"],
-        "Music": ["Classical Music Theory", "Jazz History", "Modern Pop Music", "Music Composition"],
+        "Computer Science": ["Data Structures", "Algorithms", "Operating Systems", "Database Management", "Computer Networks", "Artificial Intelligence"],
+        "History": ["Ancient Greek History", "The Roman Empire", "The French Revolution", "The Cold War", "History of Science"],
+        "Chemistry": ["Organic Chemistry I & II", "Physical Chemistry", "Inorganic Chemistry", "Analytical Chemistry", "Biochemistry"],
+        "Physics": ["Classical Mechanics", "Quantum Mechanics", "Electromagnetism", "Thermodynamics & Statistical Mechanics", "Astrophysics"],
+        "Mathematics": ["Calculus I, II, III", "Linear Algebra", "Differential Equations", "Abstract Algebra", "Real Analysis"],
+        "English Literature": ["Shakespearean Drama", "The Victorian Novel", "Modernist Poetry", "Literary Criticism", "Postmodernism"],
+        "Art History": ["Italian Renaissance Art", "Baroque Art", "Impressionism and Post-Impressionism", "Modern Art", "History of Photography"],
+        "Music Theory": ["Diatonic Harmony", "Chromatic Harmony", "Counterpoint", "Form and Analysis", "Orchestration"],
     },
 };
 
@@ -127,36 +78,75 @@ export function ExpressGenerationClient() {
   const { toast } = useToast();
   
   const [grade, setGrade] = useState('10th Grade');
+  const [streamsForGrade, setStreamsForGrade] = useState<string[]>([]);
+  const [stream, setStream] = useState('');
   const [subjectsForGrade, setSubjectsForGrade] = useState<string[]>([]);
   const [subject, setSubject] = useState('');
   const [topicsForSubject, setTopicsForSubject] = useState<string[]>([]);
   const [topic, setTopic] = useState('');
 
   useEffect(() => {
-    const defaultSubjects = Object.keys(gradeSubjectTopicMap[grade as keyof typeof gradeSubjectTopicMap] || {});
-    setSubjectsForGrade(defaultSubjects);
+    handleGradeChange(grade);
   }, []);
 
   const handleGradeChange = (selectedGrade: string) => {
     setGrade(selectedGrade);
-    const newSubjects = Object.keys(gradeSubjectTopicMap[selectedGrade as keyof typeof gradeSubjectTopicMap] || {});
-    setSubjectsForGrade(newSubjects);
+    const gradeData = gradeSubjectTopicMap[selectedGrade as keyof typeof gradeSubjectTopicMap] || {};
+    const gradeDataKeys = Object.keys(gradeData);
+
+    // Reset dependent fields
+    setStream('');
     setSubject('');
     setTopic('');
+    setStreamsForGrade([]);
+    setSubjectsForGrade([]);
     setTopicsForSubject([]);
+
+    if (["11th Grade", "12th Grade"].includes(selectedGrade)) {
+        setStreamsForGrade(gradeDataKeys);
+    } else {
+        setSubjectsForGrade(gradeDataKeys);
+        if (selectedGrade === "University") {
+            setSubject(gradeDataKeys[0] || '');
+            handleSubjectChange(gradeDataKeys[0] || '', selectedGrade, '');
+        }
+    }
   };
 
-  const handleSubjectChange = (selectedSubject: string) => {
+  const handleStreamChange = (selectedStream: string) => {
+      setStream(selectedStream);
+      const gradeData = gradeSubjectTopicMap[grade as keyof typeof gradeSubjectTopicMap] || {};
+      const streamData = gradeData[selectedStream as keyof typeof gradeData] || {};
+      const newSubjects = Object.keys(streamData);
+      
+      setSubjectsForGrade(newSubjects);
+      setSubject('');
+      setTopic('');
+      setTopicsForSubject([]);
+  };
+
+  const handleSubjectChange = (selectedSubject: string, currentGrade?: string, currentStream?: string) => {
+    const effGrade = currentGrade || grade;
+    const effStream = currentStream || stream;
+
     setSubject(selectedSubject);
-    const gradeMap = gradeSubjectTopicMap[grade as keyof typeof gradeSubjectTopicMap];
-    if (gradeMap) {
-      const newTopics = gradeMap[selectedSubject as keyof typeof gradeMap] || [];
-      setTopicsForSubject(newTopics);
-    } else {
-        setTopicsForSubject([]);
+    let newTopics: string[] = [];
+    const gradeData = gradeSubjectTopicMap[effGrade as keyof typeof gradeSubjectTopicMap];
+
+    if (gradeData) {
+        if (effStream && ["11th Grade", "12th Grade"].includes(effGrade)) { // For 11th/12th grade
+            const streamData = gradeData[effStream as keyof typeof gradeData];
+            if (streamData && typeof streamData === 'object' && !Array.isArray(streamData)) {
+                 newTopics = streamData[selectedSubject as keyof typeof streamData] || [];
+            }
+        } else { // For grades 1-10 and University
+            newTopics = gradeData[selectedSubject as keyof typeof gradeData] || [];
+        }
     }
+    setTopicsForSubject(newTopics);
     setTopic('');
   };
+
 
   useEffect(() => {
     if (state.message && !state.success) {
@@ -171,7 +161,7 @@ export function ExpressGenerationClient() {
   return (
     <div className="space-y-8">
       <form action={formAction} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
             <div className="space-y-2">
                 <Label htmlFor="gradeLevel">Grade Level</Label>
                 <Select name="gradeLevel" value={grade} onValueChange={handleGradeChange}>
@@ -185,11 +175,26 @@ export function ExpressGenerationClient() {
                     </SelectContent>
                 </Select>
             </div>
+            {streamsForGrade.length > 0 && (
+                 <div className="space-y-2">
+                    <Label htmlFor="stream">Stream</Label>
+                    <Select name="stream" value={stream} onValueChange={handleStreamChange} required>
+                        <SelectTrigger id="stream">
+                            <SelectValue placeholder="Select stream" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {streamsForGrade.map(s => (
+                                <SelectItem key={s} value={s}>{s}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+            )}
              <div className="space-y-2">
-                <Label htmlFor="subject">Subject</Label>
-                <Select name="subject" value={subject} onValueChange={handleSubjectChange} required disabled={!grade}>
+                <Label htmlFor="subject">{grade === 'University' ? 'Field of Study' : 'Subject'}</Label>
+                <Select name="subject" value={subject} onValueChange={handleSubjectChange} required disabled={!grade || (streamsForGrade.length > 0 && !stream)}>
                     <SelectTrigger id="subject">
-                        <SelectValue placeholder="Select subject" />
+                        <SelectValue placeholder={`Select ${grade === 'University' ? 'field' : 'subject'}`} />
                     </SelectTrigger>
                     <SelectContent>
                         {subjectsForGrade.map(s => (
@@ -199,10 +204,10 @@ export function ExpressGenerationClient() {
                 </Select>
             </div>
             <div className="space-y-2">
-                <Label htmlFor="topic">Topic</Label>
+                <Label htmlFor="topic">{grade === 'University' ? 'Course / Paper' : 'Topic'}</Label>
                 <Select name="topic" value={topic} onValueChange={setTopic} disabled={!subject} required>
                     <SelectTrigger id="topic">
-                        <SelectValue placeholder="Select topic" />
+                        <SelectValue placeholder={`Select ${grade === 'University' ? 'course' : 'topic'}`} />
                     </SelectTrigger>
                     <SelectContent>
                         {topicsForSubject.map(t => (
