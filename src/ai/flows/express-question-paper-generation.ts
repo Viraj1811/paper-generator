@@ -50,55 +50,50 @@ const prompt = ai.definePrompt({
   name: 'expressQuestionPaperGenerationPrompt',
   input: {schema: ExpressQuestionPaperGenerationInputSchema},
   output: {schema: ExpressQuestionPaperGenerationOutputSchema},
-  prompt: `You are an expert educational content creator specializing in multilingual and transliterated question papers.
+  prompt: `You are an expert educational content creator. Your task is to generate a question paper based on the following specifications:
 
-Your task is to generate a question paper based on the following details:
-- Instructional Language: '{{{language}}}'
-- Subject: '{{{subject}}}'
-- Topic: '{{{topic}}}'
-- Grade Level: '{{{gradeLevel}}}'
-- Difficulty: '{{{difficultyLevel}}}'
+- **Instructional Language:** '{{{language}}}' (This is the language for all instructions, titles, and general question text).
+- **Subject:** '{{{subject}}}'
+- **Topic:** '{{{topic}}}'
+- **Grade Level:** '{{{gradeLevel}}}'
+- **Difficulty:** '{{{difficultyLevel}}}'
 
-**CRITICAL INSTRUCTION: Language Mixing Rule**
-Your single most important task is to follow this rule: When the subject is a language itself (e.g., Hindi, Sanskrit, English Grammar), you MUST preserve the key technical terms of that subject in their original language and script. However, you MUST translate the surrounding instructional part of the question (like 'What is', 'Explain', 'Choose the correct option') into the specified '{{{language}}}'.
+**Core Requirement: Mixed-Language Generation**
 
-**Examples of the Language Mixing Rule:**
-- If Instructional Language is 'Gujarati' and Subject is 'Hindi':
-  - The question 'What is Visheshan?' should become 'વિશેષણ શું છે?'
-  - The question 'Write 5 examples of Kriya.' should become 'Kriya ના ૫ ઉદાહરણો લખો.'
-- If Instructional Language is 'English' and Subject is 'Sanskrit':
-  - The question 'Explain Sandhi with two examples.' should become 'Explain সন্ধি with two examples.'
-  - The question 'Define Alankar.' should become 'Define अलंकार.'
+Your primary task is to follow this specific language rule:
+1.  **Translate Instructional Text:** All general text (like 'What is', 'Explain', 'Choose the correct option', section titles, and paper instructions) MUST be translated into the specified '{{{language}}}'.
+2.  **Preserve Subject Keywords:** For language-specific subjects (like Hindi, Sanskrit, English Grammar), the core technical terms (keywords) MUST be kept in their original language and script. For all other subjects (like Physics, History), translate everything into the '{{{language}}}'.
 
-**For Non-Language Subjects (like Physics, History, Maths):**
-For subjects that are not languages, you should translate the ENTIRE content, including technical terms, into the '{{{language}}}' to create a fully immersive paper. The language-mixing rule does not apply here.
-- Example: If the language is 'Hindi' and the subject is 'Physics', a question about 'Force' should use the Hindi word 'बल'.
-- Example: If the language is 'Marathi' and the subject is 'History', 'Mughal Empire' should be translated to 'मुघल साम्राज्य'.
+**Example of the Rule:**
+- If Subject is 'Sanskrit' and Language is 'Gujarati', the question 'How many types of Sandhi are there?' MUST become 'Sandhi કેટલાં પ્રકારના હોય છે?'
+- If Subject is 'Hindi' and Language is 'Gujarati', the question 'What is Visheshan?' MUST become 'વિશેષણ શું છે?'
 
-The paper must contain exactly the following number of questions for each type. Only create sections for question types with a count greater than 0. Remember to translate the section titles to '{{{language}}}':
+**Question Paper Structure:**
+
+The paper must contain exactly the following number of questions, organized into sections. Only create sections if the question count is greater than 0. The section titles MUST be in '{{{language}}}'.
+
 {{#if questionCounts.mcq}}
-- Multiple Choice Questions (Total: {{{questionCounts.mcq}}})
+- **Section A: Multiple Choice Questions** (Total: {{{questionCounts.mcq}}})
 {{/if}}
 {{#if questionCounts.one_liner}}
-- One Liner Questions (Total: {{{questionCounts.one_liner}}})
+- **Section B: One Liner Questions** (Total: {{{questionCounts.one_liner}}})
 {{/if}}
 {{#if questionCounts.short_note}}
-- Short Answer Questions (Total: {{{questionCounts.short_note}}})
+- **Section C: Short Answer Questions** (Total: {{{questionCounts.short_note}}})
 {{/if}}
 {{#if questionCounts.long_answer}}
-- Long Answer Questions (Total: {{{questionCounts.long_answer}}})
+- **Section D: Long Answer Questions** (Total: {{{questionCounts.long_answer}}})
 {{/if}}
 
-Formatting rules:
-- The entire output MUST be a single valid markdown string.
-- Use a main heading (#) for the question paper title in the '{{{language}}}'.
-- Use subheadings (##) for sections based on question types, also in '{{{language}}}'.
+**Formatting Rules:**
+- The entire output MUST be a single, valid markdown string.
+- Use a main heading (#) for the question paper title (e.g., # Subject Name - Topic). Translate this into '{{{language}}}'.
+- Use subheadings (##) for the section titles (e.g., ## Section A: Multiple Choice Questions). Translate these into '{{{language}}}'.
 - Use numbered lists for questions.
-- For Multiple Choice Questions, use nested lettered lists for options.
-- All parts of the output must adhere to the language rules defined above.
+- For Multiple Choice Questions, use nested lettered lists for the options (a., b., c., d.).
+- Ensure all questions are accurate and appropriate for the specified grade level and subject.
 
-Ensure the questions are accurate and appropriate for the specified grade level and subject.
-**FINAL REMINDER:** Follow the Language Mixing Rule precisely. This is the most critical part of your task.
+**Final Instruction:** The mixed-language rule is the most important part of this task. Adhere to it strictly.
 `,
 });
 
