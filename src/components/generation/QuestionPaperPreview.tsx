@@ -1,7 +1,8 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
-import { generateSolutionAction } from '@/app/teacher/generate/express/actions';
+import { useRef, useState, useEffect, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
+import { generateSolutionAction, refinePaperAction } from '@/app/teacher/generate/express/actions';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -26,11 +27,71 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { Separator } from '@/components/ui/separator';
 
 interface QuestionPaperPreviewProps {
   content: string;
   headerText?: string;
   logoSrc?: string | null;
+}
+
+function RefineButton() {
+    const { pending } = useFormStatus();
+    return (
+        <Button type="submit" disabled={pending}>
+            {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Shuffle className="mr-2 h-4 w-4" />}
+            Refine Paper
+        </Button>
+    )
+}
+
+function RefineForm({ paperContent, onRefine }: { paperContent: string, onRefine: (newContent: string) => void }) {
+    const [state, formAction] = useActionState(refinePaperAction, {
+        message: '',
+        success: false,
+    });
+    const { toast } = useToast();
+
+    useEffect(() => {
+        if (state.success && state.refinedPaper) {
+            onRefine(state.refinedPaper);
+            toast({
+                title: 'Success',
+                description: state.message,
+            });
+        } else if (!state.success && state.message) {
+            toast({
+                variant: 'destructive',
+                title: 'Refinement Error',
+                description: state.message,
+            });
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [state]);
+    
+    return (
+        <form action={formAction}>
+            <input type="hidden" name="questionPaper" value={paperContent} />
+            <Separator className="my-4" />
+            <CardHeader className="pt-0">
+                <CardTitle className="text-xl">Refine Paper (Optional)</CardTitle>
+                <CardDescription>
+                    Provide instructions to modify the paper above. For example, "Replace the first two questions with questions about the Cold War."
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div className="space-y-4">
+                    <Textarea
+                        name="prompt"
+                        placeholder="Your instructions..."
+                        className="min-h-[100px] resize-y"
+                        required
+                    />
+                    <RefineButton />
+                </div>
+            </CardContent>
+        </form>
+    )
 }
 
 export function QuestionPaperPreview({ content, headerText, logoSrc }: QuestionPaperPreviewProps) {
@@ -188,6 +249,8 @@ export function QuestionPaperPreview({ content, headerText, logoSrc }: QuestionP
             </>
         )}
       </CardFooter>
+      
+      {!isEditing && <RefineForm paperContent={paperContent} onRefine={setPaperContent} />}
     </Card>
 
     <Dialog open={isSolutionModalOpen} onOpenChange={setIsSolutionModalOpen}>

@@ -7,6 +7,7 @@ import {
   type ExpressQuestionPaperGenerationInput,
 } from '@/ai/flows/express-question-paper-generation';
 import { generateSolution } from '@/ai/flows/solution-generation';
+import { refinePaper, type RefinePaperInput } from '@/ai/flows/refine-paper-flow';
 
 const formSchema = z.object({
   language: z.string().min(1, { message: 'Language is required.' }),
@@ -150,6 +151,46 @@ export async function generateSolutionAction(questionPaper: string): Promise<Sol
         console.error(error);
         return {
             message: 'An error occurred while generating the solution. Please try again.',
+            success: false,
+        };
+    }
+}
+
+export type RefineState = {
+    message: string;
+    refinedPaper?: string;
+    success: boolean;
+};
+
+export async function refinePaperAction(prevState: RefineState, formData: FormData): Promise<RefineState> {
+    const questionPaper = formData.get('questionPaper') as string;
+    const prompt = formData.get('prompt') as string;
+
+    if (!questionPaper || questionPaper.trim() === '') {
+        return { message: 'Cannot refine an empty paper.', success: false };
+    }
+    if (!prompt || prompt.trim() === '') {
+        return { message: 'Please provide instructions for refinement.', success: false };
+    }
+
+    try {
+        const input: RefinePaperInput = { questionPaper, prompt };
+        const result = await refinePaper(input);
+
+        if (result && result.refinedPaper) {
+            return {
+                message: 'Paper refined successfully!',
+                refinedPaper: result.refinedPaper,
+                success: true,
+            };
+        } else {
+            throw new Error('AI did not return a refined paper.');
+        }
+
+    } catch (error) {
+        console.error(error);
+        return {
+            message: 'An error occurred while refining the paper. Please try again.',
             success: false,
         };
     }
