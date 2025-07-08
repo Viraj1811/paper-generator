@@ -337,7 +337,7 @@ export function ExpressGenerationClient() {
   return (
     <div className="space-y-8">
       <form action={formAction} className="space-y-8">
-        <Card className="hover:shadow-xl">
+        <Card>
             <CardHeader>
                 <CardTitle>Paper Configuration</CardTitle>
                 <CardDescription>Set the core parameters for your question paper.</CardDescription>
@@ -432,13 +432,13 @@ export function ExpressGenerationClient() {
             </CardContent>
         </Card>
 
-        <Card className="hover:shadow-xl">
+        <Card>
             <CardHeader>
                 <CardTitle>Question Distribution & Marks</CardTitle>
                 <CardDescription>Specify the number of questions and marks for each type.</CardDescription>
             </CardHeader>
             <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div className="space-y-3 rounded-lg border bg-background/50 p-3 sm:p-4">
                         <Label htmlFor="mcq" className="font-medium text-base">Multiple Choice</Label>
                         <div className="space-y-1.5">
@@ -487,7 +487,7 @@ export function ExpressGenerationClient() {
             </CardContent>
         </Card>
 
-        <Card className="hover:shadow-xl">
+        <Card>
             <CardHeader>
                 <CardTitle>Advanced Options (Optional)</CardTitle>
                 <CardDescription>Provide additional instructions to the AI to customize your paper.</CardDescription>
@@ -505,7 +505,7 @@ export function ExpressGenerationClient() {
             </CardContent>
         </Card>
         
-        <Card className="hover:shadow-xl">
+        <Card>
             <CardHeader>
                 <CardTitle>Custom Branding (Optional)</CardTitle>
                 <CardDescription>Add a logo and header text to your generated papers.</CardDescription>
