@@ -5,9 +5,9 @@ export default function LoginPage() {
   return (
     <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2 xl:min-h-screen">
       <div className="flex items-center justify-center p-6 sm:p-12">
-        <div className="mx-auto grid w-[350px] gap-6">
+        <div className="mx-auto grid w-full max-w-sm gap-6">
           <div className="grid gap-4 text-center">
-            <h1 className="text-3xl font-bold tracking-tight font-headline">Shayak's Paper Generator</h1>
+            <h1 className="text-2xl font-bold tracking-tight sm:text-3xl font-headline">Shayak's Paper Generator</h1>
             <p className="text-balance text-muted-foreground">
               The intelligent question paper generator
             </p>

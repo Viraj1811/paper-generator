@@ -14,7 +14,7 @@ export default function TeacherDashboard() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold font-headline">Welcome, Teacher!</h1>
+        <h1 className="text-2xl font-bold sm:text-3xl font-headline">Welcome, Teacher!</h1>
         <p className="text-muted-foreground">Here's a summary of your activities.</p>
       </div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -55,7 +55,7 @@ export default function TeacherDashboard() {
             <CardTitle>Create a New Question Paper</CardTitle>
             <CardDescription>Generate a new paper instantly using one of the modes below.</CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col sm:flex-row gap-4 justify-center">
+        <CardContent className="flex flex-col items-center sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="w-full sm:w-auto">
                 <Link href="/teacher/generate/express">
                     <FilePlus2 className="mr-2 h-4 w-4" />

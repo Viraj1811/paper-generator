@@ -19,7 +19,7 @@ export default function StudentLayout({
         </Sidebar>
         <SidebarInset>
             <AppHeader />
-            <div className="p-4 sm:px-6">{children}</div>
+            <div className="p-4 sm:p-6">{children}</div>
         </SidebarInset>
     </SidebarProvider>
   );

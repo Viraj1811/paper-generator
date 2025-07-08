@@ -19,7 +19,7 @@ export default function StudentDashboard() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold font-headline">Welcome, Student!</h1>
+        <h1 className="text-2xl font-bold sm:text-3xl font-headline">Welcome, Student!</h1>
         <p className="text-muted-foreground">Ready to ace your next test?</p>
       </div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -64,11 +64,11 @@ export default function StudentDashboard() {
               <Table>
                   <TableHeader>
                       <TableRow>
-                          <TableHead>Subject</TableHead>
+                          <TableHead className="w-[150px] sm:w-auto">Subject</TableHead>
                           <TableHead>Topic</TableHead>
-                          <TableHead>Date</TableHead>
-                          <TableHead>Time</TableHead>
-                          <TableHead className="text-right"></TableHead>
+                          <TableHead className="hidden md:table-cell">Date</TableHead>
+                          <TableHead className="hidden md:table-cell">Time</TableHead>
+                          <TableHead className="text-right">Action</TableHead>
                       </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -76,8 +76,8 @@ export default function StudentDashboard() {
                           <TableRow key={test.id}>
                               <TableCell className="font-medium">{test.subject}</TableCell>
                               <TableCell>{test.topic}</TableCell>
-                              <TableCell>{test.date}</TableCell>
-                              <TableCell>{test.time}</TableCell>
+                              <TableCell className="hidden md:table-cell">{test.date}</TableCell>
+                              <TableCell className="hidden md:table-cell">{test.time}</TableCell>
                               <TableCell className="text-right">
                                   <Button variant="outline" size="sm" disabled>Start Test</Button>
                               </TableCell>

@@ -38,7 +38,7 @@ interface QuestionPaperPreviewProps {
 function RefineButton() {
     const { pending } = useFormStatus();
     return (
-        <Button type="submit" disabled={pending}>
+        <Button type="submit" disabled={pending} className="w-full sm:w-auto">
             {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Shuffle className="mr-2 h-4 w-4" />}
             Refine Paper
         </Button>
@@ -73,13 +73,13 @@ function RefineForm({ paperContent, onRefine }: { paperContent: string, onRefine
         <form action={formAction}>
             <input type="hidden" name="questionPaper" value={paperContent} />
             <Separator className="my-4" />
-            <CardHeader className="pt-0">
+            <CardHeader className="p-6 pt-0">
                 <CardTitle className="text-xl">Refine Paper (Optional)</CardTitle>
                 <CardDescription>
                     Provide instructions to modify the paper above. For example, "Replace the first two questions with questions about the Cold War."
                 </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-6 pt-0">
                 <div className="space-y-4">
                     <Textarea
                         name="prompt"
@@ -220,25 +220,25 @@ export function QuestionPaperPreview({ content, headerText, logoSrc }: QuestionP
                 <Button variant="outline" onClick={() => {
                     setIsEditing(false);
                     setPaperContent(content); // Reset to original on cancel
-                }}>
+                }} className="w-full sm:w-auto">
                     Cancel
                 </Button>
-                <Button onClick={() => setIsEditing(false)}>
+                <Button onClick={() => setIsEditing(false)} className="w-full sm:w-auto">
                     <Check className="mr-2 h-4 w-4" /> Save Changes
                 </Button>
             </>
         ) : (
             <>
-                <Button variant="outline" onClick={() => setIsEditing(true)}>
+                <Button variant="outline" onClick={() => setIsEditing(true)} className="w-full sm:w-auto">
                   <Edit className="mr-2 h-4 w-4" /> Edit
                 </Button>
-                <Button variant="outline" onClick={handleShuffle}>
+                <Button variant="outline" onClick={handleShuffle} className="w-full sm:w-auto">
                   <Shuffle className="mr-2 h-4 w-4" /> Shuffle
                 </Button>
-                <Button variant="outline" onClick={() => handleDownloadPdf(paperForPdfRef, 'question-paper.pdf')}>
+                <Button variant="outline" onClick={() => handleDownloadPdf(paperForPdfRef, 'question-paper.pdf')} className="w-full sm:w-auto">
                   <Download className="mr-2 h-4 w-4" /> Download Paper
                 </Button>
-                <Button onClick={handleShowSolution} disabled={isSolutionLoading}>
+                <Button onClick={handleShowSolution} disabled={isSolutionLoading} className="w-full sm:w-auto">
                   {isSolutionLoading ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   ) : (
@@ -258,7 +258,7 @@ export function QuestionPaperPreview({ content, headerText, logoSrc }: QuestionP
         <DialogHeader>
           <DialogTitle>Solutions</DialogTitle>
         </DialogHeader>
-        <ScrollArea className="h-[60vh] w-full rounded-md border bg-card">
+        <ScrollArea className="h-[70vh] w-full rounded-md border bg-card">
           <div
             className="prose dark:prose-invert prose-sm min-w-full p-4"
             dangerouslySetInnerHTML={getHtmlContent(solutionContent)}
@@ -281,7 +281,7 @@ export function QuestionPaperPreview({ content, headerText, logoSrc }: QuestionP
         {(logoSrc || headerText) && (
           <div className="flex items-center justify-between pb-4 border-b mb-6">
             {logoSrc ? ( <img src={logoSrc} alt="School Logo" className="h-20 object-contain" /> ) : <div className="w-20 h-20"/> }
-            {headerText && <div className="text-3xl font-bold text-center flex-grow mx-4">{headerText}</div>}
+            {headerText && <div className="text-2xl font-bold text-center flex-grow mx-4 sm:text-3xl">{headerText}</div>}
             <div className="w-20 h-20" /> {/* Spacer */}
           </div>
         )}
@@ -295,7 +295,7 @@ export function QuestionPaperPreview({ content, headerText, logoSrc }: QuestionP
         {(logoSrc || headerText) && (
           <div className="flex items-center justify-between pb-4 border-b mb-6">
             {logoSrc ? ( <img src={logoSrc} alt="School Logo" className="h-20 object-contain" /> ) : <div className="w-20 h-20"/> }
-            {headerText && <div className="text-3xl font-bold text-center flex-grow mx-4">{headerText}</div>}
+            {headerText && <div className="text-2xl font-bold text-center flex-grow mx-4 sm:text-3xl">{headerText}</div>}
             <div className="w-20 h-20" /> {/* Spacer */}
           </div>
         )}

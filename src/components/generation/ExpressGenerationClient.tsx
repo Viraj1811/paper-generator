@@ -439,7 +439,7 @@ export function ExpressGenerationClient() {
             </CardHeader>
             <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div className="space-y-3 rounded-lg border bg-background/50 p-4">
+                    <div className="space-y-3 rounded-lg border bg-background/50 p-3 sm:p-4">
                         <Label htmlFor="mcq" className="font-medium text-base">Multiple Choice</Label>
                         <div className="space-y-1.5">
                             <Label htmlFor="mcq" className="text-xs text-muted-foreground">Number of Questions</Label>
@@ -450,7 +450,7 @@ export function ExpressGenerationClient() {
                             <Input id="mcq_marks" name="mcq_marks" type="number" defaultValue={1} min={1} max={6} />
                         </div>
                     </div>
-                    <div className="space-y-3 rounded-lg border bg-background/50 p-4">
+                    <div className="space-y-3 rounded-lg border bg-background/50 p-3 sm:p-4">
                         <Label htmlFor="one_liner" className="font-medium text-base">One Liners</Label>
                         <div className="space-y-1.5">
                             <Label htmlFor="one_liner" className="text-xs text-muted-foreground">Number of Questions</Label>
@@ -461,7 +461,7 @@ export function ExpressGenerationClient() {
                             <Input id="one_liner_marks" name="one_liner_marks" type="number" defaultValue={1} min={1} max={6} />
                         </div>
                     </div>
-                    <div className="space-y-3 rounded-lg border bg-background/50 p-4">
+                    <div className="space-y-3 rounded-lg border bg-background/50 p-3 sm:p-4">
                         <Label htmlFor="short_note" className="font-medium text-base">Short Answers</Label>
                         <div className="space-y-1.5">
                             <Label htmlFor="short_note" className="text-xs text-muted-foreground">Number of Questions</Label>
@@ -472,7 +472,7 @@ export function ExpressGenerationClient() {
                             <Input id="short_note_marks" name="short_note_marks" type="number" defaultValue={2} min={1} max={6} />
                         </div>
                     </div>
-                    <div className="space-y-3 rounded-lg border bg-background/50 p-4">
+                    <div className="space-y-3 rounded-lg border bg-background/50 p-3 sm:p-4">
                         <Label htmlFor="long_answer" className="font-medium text-base">Long Answers</Label>
                         <div className="space-y-1.5">
                             <Label htmlFor="long_answer" className="text-xs text-muted-foreground">Number of Questions</Label>
