@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview AI-powered express question paper generation flow.
@@ -32,6 +33,7 @@ const ExpressQuestionPaperGenerationInputSchema = z.object({
     short_note: z.number().min(1).describe('Marks for each short answer question.'),
     long_answer: z.number().min(1).describe('Marks for each long answer question.'),
   }).describe('The marks for each question type.'),
+  prompt: z.string().optional().describe('Additional instructions or specific questions to include.'),
 });
 export type ExpressQuestionPaperGenerationInput = z.infer<
   typeof ExpressQuestionPaperGenerationInputSchema
@@ -97,6 +99,12 @@ The paper must contain exactly the following number of questions, organized into
 - **At the end of each question, you MUST include the marks for that question in parentheses, like this: (X Marks).**
 - For Multiple Choice Questions, use nested lettered lists for the options (a., b., c., d.).
 - Ensure all questions are accurate and appropriate for the specified grade level and subject.
+
+{{#if prompt}}
+**Additional User Instructions:**
+You MUST incorporate the following instructions, additions, or specific questions into the generated paper. Prioritize these over the standard generation where there is a conflict.
+{{{prompt}}}
+{{/if}}
 
 **Final Instruction:** The mixed-language rule and the marks display rule are the most important parts of this task. Adhere to them strictly.
 `,

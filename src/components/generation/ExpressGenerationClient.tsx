@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useFormStatus } from 'react-dom';
@@ -19,6 +20,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Image from 'next/image';
+import { Textarea } from '@/components/ui/textarea';
 
 
 const initialState = {
@@ -481,6 +483,24 @@ export function ExpressGenerationClient() {
                             <Input id="long_answer_marks" name="long_answer_marks" type="number" defaultValue={5} min={1} max={6} />
                         </div>
                     </div>
+                </div>
+            </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-xl">
+            <CardHeader>
+                <CardTitle>Advanced Options (Optional)</CardTitle>
+                <CardDescription>Provide additional instructions to the AI to customize your paper.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div className="space-y-2">
+                    <Label htmlFor="prompt">Custom Prompt</Label>
+                    <Textarea
+                        id="prompt"
+                        name="prompt"
+                        placeholder="e.g., 'Include a question about the industrial revolution.' or 'Make sure question 3 is about photosynthesis.'"
+                        className="min-h-[100px] resize-y"
+                    />
                 </div>
             </CardContent>
         </Card>

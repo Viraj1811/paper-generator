@@ -1,3 +1,4 @@
+
 'use server';
 
 import { z } from 'zod';
@@ -23,6 +24,7 @@ const formSchema = z.object({
   short_note_marks: z.coerce.number().min(1).max(6, { message: 'Marks cannot be greater than 6.' }).default(2),
   long_answer_marks: z.coerce.number().min(1).max(6, { message: 'Marks cannot be greater than 6.' }).default(5),
   paperCount: z.coerce.number().min(1, {message: "You must generate at least one paper."}).max(5, {message: "You can generate a maximum of 5 papers at a time."}).default(1),
+  prompt: z.string().optional(),
 })
 .superRefine((data, ctx) => {
     if (["11th Grade", "12th Grade", "University"].includes(data.gradeLevel) && (!data.stream || data.stream.length === 0)) {
@@ -65,6 +67,7 @@ export async function generatePaperAction(
     short_note_marks: formData.get('short_note_marks'),
     long_answer_marks: formData.get('long_answer_marks'),
     paperCount: formData.get('paperCount'),
+    prompt: formData.get('prompt'),
   });
 
   if (!validatedFields.success) {
@@ -77,7 +80,7 @@ export async function generatePaperAction(
   }
   
   try {
-    const { language, subject, topic, difficultyLevel, gradeLevel, mcq, one_liner, short_note, long_answer, mcq_marks, one_liner_marks, short_note_marks, long_answer_marks, paperCount } = validatedFields.data;
+    const { language, subject, topic, difficultyLevel, gradeLevel, mcq, one_liner, short_note, long_answer, mcq_marks, one_liner_marks, short_note_marks, long_answer_marks, paperCount, prompt } = validatedFields.data;
     const baseInput: ExpressQuestionPaperGenerationInput = {
         language,
         subject,
@@ -96,6 +99,7 @@ export async function generatePaperAction(
             short_note: short_note_marks,
             long_answer: long_answer_marks,
         },
+        prompt,
     };
 
     const generationPromises = Array.from({ length: paperCount }, (_, i) => {
